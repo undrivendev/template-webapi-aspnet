@@ -1,6 +1,3 @@
 namespace WebApiTemplate.Core.Customers;
 
-public class Customer
-{
-    
-}
+public record Customer(Guid? Id);

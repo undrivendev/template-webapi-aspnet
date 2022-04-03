@@ -1,25 +1,35 @@
+using Microsoft.EntityFrameworkCore;
 using WebApiTemplate.Api;
 using WebApiTemplate.Core.Customers;
 using WebApiTemplate.Core.Mediator;
 using WebApiTemplate.Core.Mediator.DependencyInjection;
-using WebApiTemplate.Infrastructure.Customers.Persistence;
+using WebApiTemplate.Infrastructure.Customers;
+using WebApiTemplate.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+// swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<IContainer, AspNetContainerWrapper>();
+// repository
+builder.Services.Configure<ReadRepositoryOptions>(builder.Configuration.GetSection("Repository"));
 builder.Services.AddSingleton<ICustomerReadRepository, CustomerReadRepository>();
-builder.Services.AddSingleton<ICustomerWriteRepository, CustomerWriteRepository>();
+builder.Services.Configure<WriteRepositoryOptions>(builder.Configuration.GetSection("Repository"));
+builder.Services.AddScoped<ICustomerWriteRepository, CustomerWriteRepository>();
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetSection("Repository").Get<WriteRepositoryOptions>().ConnectionString
+                      ?? throw new ArgumentNullException("connectionString")));
 
+// mediator
+builder.Services.AddSingleton<IContainer, AspNetContainerWrapper>();
 builder.Services.AddSingleton<IMediator, Mediator>();
 
-// register all mediator handlers
+// mediator handlers
 var registrations = typeof(CustomerQueryHandler)
     .Assembly
     .GetExportedTypes()
@@ -32,6 +42,13 @@ foreach (var r in registrations)
 }
 
 var app = builder.Build();
+
+// apply pending EF Core migrations automatically
+await using (var scope = app.Services.CreateAsyncScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await context.Database.MigrateAsync();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

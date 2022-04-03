@@ -4,5 +4,7 @@ namespace WebApiTemplate.Api.Customers.Requests;
 
 public class CreateCustomerRequest
 {
-    public Customer ToDomainEntity() => new();
+    public Guid Id { get; set; }
+    
+    public Customer ToDomainEntity() => new(Id);
 }
