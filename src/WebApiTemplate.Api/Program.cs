@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WebApiTemplate.Api;
+using WebApiTemplate.Application.Customers;
 using WebApiTemplate.Core;
 using WebApiTemplate.Core.Customers;
 using WebApiTemplate.Core.Mediator;

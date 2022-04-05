@@ -1,7 +1,9 @@
-using WebApiTemplate.Core.Customers.Commands;
+using WebApiTemplate.Application.Customers.Commands;
+using WebApiTemplate.Core;
+using WebApiTemplate.Core.Customers;
 using WebApiTemplate.Core.Mediator;
 
-namespace WebApiTemplate.Core.Customers;
+namespace WebApiTemplate.Application.Customers;
 
 public class CustomerCommandHandler
     : ICommandHandler<CreateCustomerCommand, Guid>,

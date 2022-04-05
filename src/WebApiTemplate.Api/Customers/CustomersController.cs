@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using WebApiTemplate.Api.Customers.Requests;
 using WebApiTemplate.Api.Customers.Responses;
+using WebApiTemplate.Application.Customers.Commands;
+using WebApiTemplate.Application.Customers.Queries;
 using WebApiTemplate.Core;
 using WebApiTemplate.Core.Customers;
-using WebApiTemplate.Core.Customers.Commands;
-using WebApiTemplate.Core.Customers.Queries;
 using WebApiTemplate.Core.Mediator;
 
 namespace WebApiTemplate.Api.Customers;

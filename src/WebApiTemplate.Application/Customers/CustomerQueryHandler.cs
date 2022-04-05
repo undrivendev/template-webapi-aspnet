@@ -1,7 +1,8 @@
-using WebApiTemplate.Core.Customers.Queries;
+using WebApiTemplate.Application.Customers.Queries;
+using WebApiTemplate.Core.Customers;
 using WebApiTemplate.Core.Mediator;
 
-namespace WebApiTemplate.Core.Customers;
+namespace WebApiTemplate.Application.Customers;
 
 public class CustomerQueryHandler : IQueryHandler<GetCustomerByIdQuery, Customer>
 {
