@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WebApiTemplate.Api;
+using WebApiTemplate.Core;
 using WebApiTemplate.Core.Customers;
 using WebApiTemplate.Core.Mediator;
 using WebApiTemplate.Core.Mediator.DependencyInjection;
@@ -16,14 +17,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// repository
+// persistence
 builder.Services.Configure<ReadRepositoryOptions>(builder.Configuration.GetSection("Repository"));
 builder.Services.AddSingleton<ICustomerReadRepository, CustomerReadRepository>();
 builder.Services.Configure<WriteRepositoryOptions>(builder.Configuration.GetSection("Repository"));
-builder.Services.AddScoped<ICustomerWriteRepository, CustomerWriteRepository>();
-builder.Services.AddDbContext<AppDbContext>(options =>
+builder.Services.AddSingleton<ICustomerWriteRepository, CustomerWriteRepository>();
+builder.Services.AddDbContextFactory<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetSection("Repository").Get<WriteRepositoryOptions>().ConnectionString
-                      ?? throw new ArgumentNullException("connectionString")));
+                      ?? throw new ArgumentNullException("connectionString"))
+        .UseSnakeCaseNamingConvention());
+builder.Services.AddSingleton<IUnitOfWorkFactory, UnitOfWorkFactory>();
 
 // mediator
 builder.Services.AddSingleton<IContainer, AspNetContainerWrapper>();
@@ -57,7 +60,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
+
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

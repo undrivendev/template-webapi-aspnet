@@ -1,28 +1,31 @@
+using Microsoft.EntityFrameworkCore;
 using WebApiTemplate.Core;
 
 namespace WebApiTemplate.Infrastructure.Persistence;
 
-public abstract class WriteRepositoryBase<T> : IWriteRepository<T>
+public abstract class WriteRepositoryBase<T> : IWriteRepository<T> where T : BaseEntity
 {
-    protected readonly AppDbContext _context;
-
-    public WriteRepositoryBase(AppDbContext context)
+    public virtual Task<Nothing> Create(T entity, IUnitOfWork uow)
     {
-        _context = context;
+        ((UnitOfWork)uow).DbContext.Add(entity);
+        return Task.FromResult(Nothing.Instance);
     }
 
-    public async Task<Guid> Create(T entity)
+    public virtual Task<Nothing> Update(T entity, IUnitOfWork uow)
     {
-        throw new NotImplementedException();
+        ((UnitOfWork)uow).DbContext.Update(entity);
+        return Task.FromResult(Nothing.Instance);
     }
 
-    public async Task Update(T entity)
+    public virtual async Task<Nothing> Delete(Guid id, IUnitOfWork uow)
     {
-        throw new NotImplementedException();
-    }
+        var dbContext = ((UnitOfWork)uow).DbContext;
+        var entityToDelete = await dbContext.FindAsync(typeof(T), id);
+        if (entityToDelete is not null)
+        {
+            dbContext.Remove(entityToDelete);
+        }
 
-    public async Task Delete(Guid id)
-    {
-        throw new NotImplementedException();
+        return Nothing.Instance;
     }
 }

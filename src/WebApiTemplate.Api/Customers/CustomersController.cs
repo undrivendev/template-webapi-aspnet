@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using WebApiTemplate.Api.Customers.Requests;
+using WebApiTemplate.Api.Customers.Responses;
 using WebApiTemplate.Core;
 using WebApiTemplate.Core.Customers;
 using WebApiTemplate.Core.Customers.Commands;
@@ -9,20 +10,20 @@ using WebApiTemplate.Core.Mediator;
 namespace WebApiTemplate.Api.Customers;
 
 [Route("[controller]")]
-public class Customers : AppControllerBase
+public class CustomersController : AppControllerBase
 {
-    public Customers(IMediator mediator)
+    public CustomersController(IMediator mediator)
         : base(mediator)
     {
     }
 
     [HttpPost]
     [Route("")]
-    public async Task<ActionResult<Guid>> Create(CreateCustomerRequest request)
+    public async Task<ActionResult<CustomerCreatedResponse>> Create(CreateCustomerRequest request)
     {
-        var newId = await _mediator.SendCommand<CreateCustomerCommand, Guid>(
+        var id = await _mediator.SendCommand<CreateCustomerCommand, Guid>(
             new CreateCustomerCommand(request.ToDomainEntity()));
-        return CreatedAtAction(nameof(Get), new { id = newId });
+        return CreatedAtAction(nameof(Get), new { id }, new CustomerCreatedResponse(id));
     }
 
     [HttpGet]

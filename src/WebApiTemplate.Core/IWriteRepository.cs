@@ -1,8 +1,8 @@
 ﻿namespace WebApiTemplate.Core;
 
-public interface IWriteRepository<T>
+public interface IWriteRepository<in T> where T : BaseEntity
 {
-    public Task<Guid> Create(T entity);
-    public Task Update(T entity);
-    public Task Delete(Guid id);
+    public Task<Nothing> Create(T entity, IUnitOfWork uow);
+    public Task<Nothing> Update(T entity, IUnitOfWork uow);
+    public Task<Nothing> Delete(Guid id, IUnitOfWork uow);
 }
