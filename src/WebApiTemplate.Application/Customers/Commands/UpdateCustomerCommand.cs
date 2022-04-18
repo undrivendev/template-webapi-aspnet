@@ -4,4 +4,4 @@ using WebApiTemplate.Core.Mediator;
 
 namespace WebApiTemplate.Application.Customers.Commands;
 
-public record UpdateCustomerCommand(Guid Id, Customer Customer) : ICommand<Nothing>;
+public record UpdateCustomerCommand(int Id, Customer Customer) : ICommand<Nothing>;

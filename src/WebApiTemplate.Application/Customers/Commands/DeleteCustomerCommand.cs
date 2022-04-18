@@ -3,4 +3,4 @@ using WebApiTemplate.Core.Mediator;
 
 namespace WebApiTemplate.Application.Customers.Commands;
 
-public record DeleteCustomerCommand(Guid Id) : ICommand<Nothing>;
+public record DeleteCustomerCommand(int Id) : ICommand<Nothing>;

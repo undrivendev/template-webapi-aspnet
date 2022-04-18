@@ -17,7 +17,7 @@ public abstract class WriteRepositoryBase<T> : IWriteRepository<T> where T : Bas
         return Task.FromResult(Nothing.Instance);
     }
 
-    public virtual async Task<Nothing> Delete(Guid id, IUnitOfWork uow)
+    public virtual async Task<Nothing> Delete(int id, IUnitOfWork uow)
     {
         var dbContext = ((UnitOfWork)uow).DbContext;
         var entityToDelete = await dbContext.FindAsync(typeof(T), id);

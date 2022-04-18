@@ -27,13 +27,13 @@ public class CustomersController : AppControllerBase
     }
 
     [HttpGet]
-    [Route("{id:guid}")]
-    public async Task<ActionResult<Customer>> Get(Guid id)
+    [Route("{id:int}")]
+    public async Task<ActionResult<Customer>> Get(int id)
         => Ok(await _mediator.SendQuery<GetCustomerByIdQuery, Customer>(new GetCustomerByIdQuery(id)));
 
     [HttpPut]
-    [Route("{id:guid}")]
-    public async Task<IActionResult> Update(Guid id, UpdateCustomerRequest request)
+    [Route("{id:int}")]
+    public async Task<IActionResult> Update(int id, UpdateCustomerRequest request)
     {
         await _mediator.SendCommand<UpdateCustomerCommand, Nothing>(
             new UpdateCustomerCommand(id, request.ToDomainEntity()));
@@ -41,8 +41,8 @@ public class CustomersController : AppControllerBase
     }
 
     [HttpDelete]
-    [Route("{id:guid}")]
-    public async Task<IActionResult> Delete(Guid id)
+    [Route("{id:int}")]
+    public async Task<IActionResult> Delete(int id)
     {
         await _mediator.SendCommand<DeleteCustomerCommand, Nothing>(new DeleteCustomerCommand(id));
         return NoContent();
