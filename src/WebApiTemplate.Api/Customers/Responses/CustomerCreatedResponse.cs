@@ -1,3 +1,3 @@
 namespace WebApiTemplate.Api.Customers.Responses;
 
-public record CustomerCreatedResponse(Guid Id);
+public record CustomerCreatedResponse(int Id);

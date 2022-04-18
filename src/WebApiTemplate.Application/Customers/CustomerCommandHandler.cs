@@ -6,7 +6,7 @@ using WebApiTemplate.Core.Mediator;
 namespace WebApiTemplate.Application.Customers;
 
 public class CustomerCommandHandler
-    : ICommandHandler<CreateCustomerCommand, Guid>,
+    : ICommandHandler<CreateCustomerCommand, int>,
         ICommandHandler<UpdateCustomerCommand, Nothing>,
         ICommandHandler<DeleteCustomerCommand, Nothing>
 {
@@ -19,7 +19,7 @@ public class CustomerCommandHandler
         _repository = repository;
     }
 
-    public async Task<Guid> Handle(CreateCustomerCommand command, CancellationToken cancellationToken = default)
+    public async Task<int> Handle(CreateCustomerCommand command, CancellationToken cancellationToken = default)
     {
         await using var uow = await _uowFactory.Create(cancellationToken);
         await _repository.Create(command.Customer, uow);

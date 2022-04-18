@@ -1,3 +1,3 @@
 namespace WebApiTemplate.Core;
 
-public abstract record BaseEntity(Guid? Id);
+public abstract record BaseEntity(int? Id);

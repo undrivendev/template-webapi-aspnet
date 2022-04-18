@@ -21,7 +21,7 @@ public class CustomersController : AppControllerBase
     [Route("")]
     public async Task<ActionResult<CustomerCreatedResponse>> Create(CreateCustomerRequest request)
     {
-        var id = await _mediator.SendCommand<CreateCustomerCommand, Guid>(
+        var id = await _mediator.SendCommand<CreateCustomerCommand, int>(
             new CreateCustomerCommand(request.ToDomainEntity()));
         return CreatedAtAction(nameof(Get), new { id }, new CustomerCreatedResponse(id));
     }

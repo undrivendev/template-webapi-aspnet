@@ -3,4 +3,4 @@ using WebApiTemplate.Core.Mediator;
 
 namespace WebApiTemplate.Application.Customers.Commands;
 
-public record CreateCustomerCommand(Customer Customer) : ICommand<Guid>;
+public record CreateCustomerCommand(Customer Customer) : ICommand<int>;

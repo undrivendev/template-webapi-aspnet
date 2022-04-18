@@ -1,3 +1,3 @@
 namespace WebApiTemplate.Core.Customers;
 
-public record Customer(Guid? Id) : BaseEntity(Id);
+public record Customer(int? Id) : BaseEntity(Id);
