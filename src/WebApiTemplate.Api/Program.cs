@@ -47,9 +47,12 @@ foreach (var r in registrations)
 
 var app = builder.Build();
 
-// apply pending EF Core migrations automatically
-await using (var scope = app.Services.CreateAsyncScope())
+// Apply pending EF Core migrations automatically in development mode.
+// To do that in production, especially in multi-instance scenarios, you need
+// to make sure that migrations are applied as a separate deploy step to prevent data corruption.
+if (app.Environment.IsDevelopment())
 {
+    await using var scope = app.Services.CreateAsyncScope();
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     await context.Database.MigrateAsync();
 }
