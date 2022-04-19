@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using SimpleInjector;
 using WebApiTemplate.Api;
+using WebApiTemplate.Application;
 using WebApiTemplate.Application.Customers;
 using WebApiTemplate.Core;
 using WebApiTemplate.Core.Customers;
@@ -11,7 +13,6 @@ using WebApiTemplate.Infrastructure.Persistence;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 
 // swagger
@@ -20,32 +21,45 @@ builder.Services.AddSwaggerGen();
 
 // persistence
 builder.Services.Configure<ReadRepositoryOptions>(builder.Configuration.GetSection("Repository"));
-builder.Services.AddSingleton<ICustomerReadRepository, CustomerReadRepository>();
 builder.Services.Configure<WriteRepositoryOptions>(builder.Configuration.GetSection("Repository"));
-builder.Services.AddSingleton<ICustomerWriteRepository, CustomerWriteRepository>();
 builder.Services.AddDbContextFactory<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetSection("Repository").Get<WriteRepositoryOptions>().ConnectionString
                       ?? throw new ArgumentNullException("connectionString"))
         .UseSnakeCaseNamingConvention());
-builder.Services.AddSingleton<IUnitOfWorkFactory, UnitOfWorkFactory>();
+
+// SimpleInjector
+var container = new Container();
+container.Options.DefaultLifestyle = Lifestyle.Singleton;
+builder.Services.AddSimpleInjector(container, options => options.AddAspNetCore().AddControllerActivation());
+container.Register<ICustomerReadRepository, CustomerReadRepository>();
+container.Register<ICustomerWriteRepository, CustomerWriteRepository>();
+container.Register<IUnitOfWorkFactory, UnitOfWorkFactory>();
 
 // mediator
-builder.Services.AddSingleton<IContainer, AspNetContainerWrapper>();
-builder.Services.AddSingleton<IMediator, Mediator>();
+container.Register<IContainer>(() => new AspNetServiceProviderWrapper(container));
+container.Register<IMediator, Mediator>();
 
 // mediator handlers
-var registrations = typeof(CustomerQueryHandler)
-    .Assembly
-    .GetExportedTypes()
-    .Where(e => e.Name.EndsWith("CommandHandler") || e.Name.EndsWith("QueryHandler")).ToList()
-    .SelectMany(e => e.GetInterfaces().Select(f => new { service = f, implementation = e }));
+container.Register(
+    typeof(ICommandHandler<,>),
+    typeof(CustomerCommandHandler).Assembly);
 
-foreach (var r in registrations)
-{
-    builder.Services.AddSingleton(r.service, r.implementation);
-}
+container.Register(
+    typeof(IQueryHandler<,>),
+    typeof(CustomerQueryHandler).Assembly);
+
+// handlers decorators
+container.RegisterDecorator(
+    typeof(ICommandHandler<,>),
+    typeof(CommandHandlerLoggingDecorator<,>));
+
+container.RegisterDecorator(
+    typeof(IQueryHandler<,>),
+    typeof(QueryHandlerLoggingDecorator<,>));
 
 var app = builder.Build();
+
+app.Services.UseSimpleInjector(container);
 
 // Apply pending EF Core migrations automatically in development mode.
 // To do that in production, especially in multi-instance scenarios, you need
@@ -71,4 +85,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseAuthorization();
 app.MapControllers();
+
+container.Verify();
+
 app.Run();
