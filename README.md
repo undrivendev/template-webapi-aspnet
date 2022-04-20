@@ -1,4 +1,4 @@
-This project can be used as a starting point to create new ASP.NET-based web APIs based on CQRS, Mediator, Clean Archtecture patterns.
+This project can be used as a starting point to create new ASP.NET-based web APIs based on CQRS, Mediator, Clean Architecture patterns.
 
 ## Like it? Give a star! :star:
 
@@ -6,24 +6,28 @@ If you like this project, you learned something from it or you are using it in y
 
 ## Why?
 
-I found implementations of similar projects to often be overly-complicated and over-engineered (IMO). This is an effort to create a more approachable, more maintainable solution that can be used as a starting point for the majority of real-world projects while, at the same time, striving to reach a sensible balance between flexibility and complexity.
+I found implementations of similar samples/templates to often be overly complicated and over-engineered (IMO). This is an effort to create a more approachable, more maintainable solution that can be used as a starting point for the majority of real-world projects while, at the same time, striving to reach a sensible balance between flexibility and complexity.
 
 ## Features
 
 - Based on .NET 6 for Long Term Support
 - Simplified .NET 6 startup hosting model
-- CQRS with full separation between Read and Write repositories
-- Simple mediatior abstraction for CQRS and no-magic, in-memory implementation using the built-in ASP.NET DI container (~50 lines of code)
-- Project structure following Clean Architecture principles
-- PostgreSQL open source database as data store
-- Read repositories based on Dapper (Raw SQL) for fastest query execution times
-- Write repositories based on Entity Framework to take advantage on the built-in change tracking mechanism
-- Migrations handled by Entity Framework and automatically applied during startup
-- Ready to use template to generate new project using an [ubiquitous templating engine](https://github.com/cookiecutter/cookiecutter) (no .NET-specific tooling)
-- TODO: Aspect-oriented programming using decorators on the above-mentioned mediator
-- TODO: Simple logging abstraction on third-party logging providers
-- TODO: Serilog
-- TODO: testing
+- [CQRS](https://docs.microsoft.com/en-us/azure/architecture/patterns/cqrs) with full separation between Read and Write repositories
+- Simple [Mediator](https://en.wikipedia.org/wiki/Mediator_pattern) abstraction for CQRS and no-magic, in-memory implementation relying on the standard `IServiceProvider` DI container abstraction (~50 lines of code)
+- Project structure following [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) principles
+- Read repositories based on [Dapper](https://github.com/DapperLib/Dapper) (Raw SQL) for fastest query execution times
+- Write repositories based on [Entity Framework Core](https://github.com/dotnet/efcore) to take advantage on the built-in change tracking mechanism
+- [PostgreSQL](https://www.postgresql.org/) open source database as data store (easily replaceable with any Entity Framework-supported data stores)
+- Migrations handled by Entity Framework and automatically applied during startup (in dev environment)
+- Ready to use template to generate new project using [cookiecutter](https://github.com/cookiecutter/cookiecutter) (no .NET-specific tooling)
+- [SimpleInjector](https://github.com/simpleinjector/SimpleInjector) open-source DI container integration for advanced service registration scenarios
+- [Aspect-oriented programming](https://en.wikipedia.org/wiki/Aspect-oriented_programming) using [Decorators](https://en.wikipedia.org/wiki/Decorator_pattern) on the above-mentioned mediator
+  - Logging
+  - TODO: Validation
+  - TODO: Caching
+- TODO: Structured logging using the standard [MEL](https://github.com/dotnet/runtime/tree/main/src/libraries/Microsoft.Extensions.Logging.Abstractions) interface with the open-source [Serilog](https://github.com/serilog/serilog) logging library implementation
+- TODO: Testing
+- TODO: Dockerfile
 
 ## How to use
 
@@ -44,3 +48,4 @@ You could use this project as a Github template and clone it in your personal sp
 ## Known limitations
 
 - No proper DDD (for now)
+- No Authentication
