@@ -36,7 +36,7 @@ container.Register<ICustomerWriteRepository, CustomerWriteRepository>();
 container.Register<IUnitOfWorkFactory, UnitOfWorkFactory>();
 
 // mediator
-container.Register<IContainer>(() => new AspNetServiceProviderWrapper(container));
+container.Register<IContainer>(() => new ContainerServiceProviderWrapper(container));
 container.Register<IMediator, Mediator>();
 
 // mediator handlers

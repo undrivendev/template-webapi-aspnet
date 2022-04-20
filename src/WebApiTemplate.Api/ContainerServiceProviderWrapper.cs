@@ -2,11 +2,11 @@ using WebApiTemplate.Core.Mediator.DependencyInjection;
 
 namespace WebApiTemplate.Api;
 
-public class AspNetServiceProviderWrapper : IContainer
+public class ContainerServiceProviderWrapper : IContainer
 {
     private readonly IServiceProvider _container;
 
-    public AspNetServiceProviderWrapper(IServiceProvider container)
+    public ContainerServiceProviderWrapper(IServiceProvider container)
     {
         _container = container;
     }
