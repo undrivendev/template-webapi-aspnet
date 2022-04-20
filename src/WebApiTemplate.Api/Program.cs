@@ -39,6 +39,7 @@ try
         options.UseNpgsql(builder.Configuration.GetSection("Repository").Get<WriteRepositoryOptions>().ConnectionString
                           ?? throw new ArgumentNullException("connectionString"))
             .UseSnakeCaseNamingConvention());
+    builder.Services.AddDistributedMemoryCache();
 
 // SimpleInjector
     var container = new Container();
@@ -69,6 +70,10 @@ try
     container.RegisterDecorator(
         typeof(IQueryHandler<,>),
         typeof(QueryHandlerLoggingDecorator<,>));
+
+    container.RegisterDecorator(
+        typeof(IQueryHandler<,>),
+        typeof(QueryHandlerCachingDecorator<,>));
 
     var app = builder.Build();
 

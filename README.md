@@ -17,16 +17,16 @@ I found implementations of similar samples/templates to often be overly complica
 - Project structure following [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) principles
 - Read repositories based on [Dapper](https://github.com/DapperLib/Dapper) (Raw SQL) for fastest query execution times
 - Write repositories based on [Entity Framework Core](https://github.com/dotnet/efcore) to take advantage on the built-in change tracking mechanism
-- [PostgreSQL](https://www.postgresql.org/) open source database as data store (easily replaceable with any Entity Framework-supported data stores)
+- [PostgreSQL](https://www.postgresql.org/) open source database as data store (easily replaceable with any Entity Framework-supported data stores); Configured to use snake_case naming convention via [EFCore.NamingConventions](https://github.com/efcore/EFCore.NamingConventions)
 - Migrations handled by Entity Framework and automatically applied during startup (in dev environment)
 - Ready to use template to generate new project using [cookiecutter](https://github.com/cookiecutter/cookiecutter) (no .NET-specific tooling)
 - [SimpleInjector](https://github.com/simpleinjector/SimpleInjector) open-source DI container integration for advanced service registration scenarios
 - [Aspect-oriented programming](https://en.wikipedia.org/wiki/Aspect-oriented_programming) using [Decorators](https://en.wikipedia.org/wiki/Decorator_pattern) on the above-mentioned mediator
-  - Logging
+  - [Logging](src/WebApiTemplate.Application/CommandHandlerLoggingDecorator.cs)
+  - [Caching](src/WebApiTemplate.Application/QueryHandlerCachingDecorator.cs)
   - TODO: Validation
-  - TODO: Caching
 - Structured logging using the standard [MEL](https://github.com/dotnet/runtime/tree/main/src/libraries/Microsoft.Extensions.Logging.Abstractions) interface with the open-source [Serilog](https://github.com/serilog/serilog) logging library implementation
-- TODO: Testing
+- Testing
 - TODO: Dockerfile
 
 ## How to use
