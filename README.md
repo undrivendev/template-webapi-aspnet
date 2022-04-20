@@ -25,7 +25,7 @@ I found implementations of similar samples/templates to often be overly complica
   - Logging
   - TODO: Validation
   - TODO: Caching
-- TODO: Structured logging using the standard [MEL](https://github.com/dotnet/runtime/tree/main/src/libraries/Microsoft.Extensions.Logging.Abstractions) interface with the open-source [Serilog](https://github.com/serilog/serilog) logging library implementation
+- Structured logging using the standard [MEL](https://github.com/dotnet/runtime/tree/main/src/libraries/Microsoft.Extensions.Logging.Abstractions) interface with the open-source [Serilog](https://github.com/serilog/serilog) logging library implementation
 - TODO: Testing
 - TODO: Dockerfile
 
