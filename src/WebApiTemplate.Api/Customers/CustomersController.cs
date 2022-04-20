@@ -9,7 +9,6 @@ using WebApiTemplate.Core.Mediator;
 
 namespace WebApiTemplate.Api.Customers;
 
-[Route("[controller]")]
 public class CustomersController : AppControllerBase
 {
     public CustomersController(IMediator mediator)
