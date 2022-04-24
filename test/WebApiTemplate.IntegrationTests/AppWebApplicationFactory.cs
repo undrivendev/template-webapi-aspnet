@@ -13,21 +13,34 @@ public class AppWebApplicationFactory : WebApplicationFactory<Program>
     {
         builder.ConfigureServices(services =>
         {
-            var descriptor = services.SingleOrDefault(
-                d => d.ServiceType ==
-                     typeof(DbContextOptions<AppDbContext>));
-            services.Remove(descriptor!);
+            builder.ConfigureServices(services =>
+            {
+                var typesToRemove = new[]
+                {
+                    typeof(DbContextOptions<AppDbContext>),
+                    typeof(IDbContextFactory<AppDbContext>),
+                };
 
-            services.AddDbContext<AppDbContext>(options => { options.UseInMemoryDatabase("InMemoryDbForTesting"); });
+                var toRemove = services.Where(e => typesToRemove.Contains(e.ServiceType)).ToList();
+                foreach (var descriptor in toRemove)
+                {
+                    services.Remove(descriptor);
+                }
 
-            var sp = services.BuildServiceProvider();
-            using var scope = sp.CreateScope();
-            var scopedServices = scope.ServiceProvider;
-            var db = scopedServices.GetRequiredService<AppDbContext>();
+                services.AddPooledDbContextFactory<AppDbContext>(options =>
+                {
+                    options.UseInMemoryDatabase("InMemoryDbForTesting");
+                });
 
-            db.Database.EnsureCreated();
+                var sp = services.BuildServiceProvider();
+                var db = sp.GetRequiredService<IDbContextFactory<AppDbContext>>().CreateDbContext();
+                db.Database.EnsureCreated();
 
-            Utils.SeedTestData(db);
+                Utils.SeedTestData(db);
+
+                Program.Container.Options.AllowOverridingRegistrations = true;
+                // TODO: swap SimpleInjector services with the test ones
+            });
         });
     }
 }

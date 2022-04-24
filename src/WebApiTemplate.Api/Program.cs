@@ -33,19 +33,26 @@ try
     builder.Services.AddSwaggerGen();
 
 // persistence
-    builder.Services.Configure<ReadRepositoryOptions>(builder.Configuration.GetSection("Repository"));
-    builder.Services.Configure<WriteRepositoryOptions>(builder.Configuration.GetSection("Repository"));
-    builder.Services.AddDbContextFactory<AppDbContext>(options =>
+    builder.Services.AddPooledDbContextFactory<AppDbContext>(options =>
         options.UseNpgsql(builder.Configuration.GetSection("Repository").Get<WriteRepositoryOptions>().ConnectionString
                           ?? throw new ArgumentNullException("connectionString"))
             .UseSnakeCaseNamingConvention());
     builder.Services.AddDistributedMemoryCache();
 
 // SimpleInjector
-    var container = new Container();
+    var container = Container;
     container.Options.DefaultLifestyle = Lifestyle.Singleton;
     builder.Services.AddSimpleInjector(container, options => options.AddAspNetCore().AddControllerActivation());
+    builder.Services.Configure<ReadRepositoryOptions>(builder.Configuration.GetSection("Repository"));
+    container.Register(() =>
+            builder.Configuration.GetSection("Repository")
+                .Get<ReadRepositoryOptions>(),
+        Lifestyle.Scoped);
     container.Register<ICustomerReadRepository, CustomerReadRepository>();
+    container.Register(() =>
+            builder.Configuration.GetSection("Repository")
+                .Get<WriteRepositoryOptions>(),
+        Lifestyle.Scoped);
     container.Register<ICustomerWriteRepository, CustomerWriteRepository>();
     container.Register<IUnitOfWorkFactory, UnitOfWorkFactory>();
 
@@ -84,9 +91,13 @@ try
 // to make sure that migrations are applied as a separate deploy step to prevent data corruption.
     if (app.Environment.IsDevelopment())
     {
-        await using var scope = app.Services.CreateAsyncScope();
-        var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        await context.Database.MigrateAsync();
+        var dbContextFactory = app.Services.GetRequiredService<IDbContextFactory<AppDbContext>>();
+        var dbContext = await dbContextFactory.CreateDbContextAsync();
+        if (dbContext.Database.IsRelational())
+        {
+            // It will throw if the db is not relational
+            await dbContext.Database.MigrateAsync();    
+        }
     }
 
     app.UseSerilogRequestLogging();
@@ -123,4 +134,5 @@ finally
 
 public partial class Program
 {
+    public static readonly Container Container = new();
 }
