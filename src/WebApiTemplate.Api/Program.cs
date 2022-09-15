@@ -96,7 +96,7 @@ try
         if (dbContext.Database.IsRelational())
         {
             // It will throw if the db is not relational
-            await dbContext.Database.MigrateAsync();    
+            await dbContext.Database.MigrateAsync();
         }
     }
 
