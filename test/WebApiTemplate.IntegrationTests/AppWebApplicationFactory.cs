@@ -13,34 +13,31 @@ public class AppWebApplicationFactory : WebApplicationFactory<Program>
     {
         builder.ConfigureServices(services =>
         {
-            builder.ConfigureServices(services =>
+            var typesToRemove = new[]
             {
-                var typesToRemove = new[]
-                {
-                    typeof(DbContextOptions<AppDbContext>),
-                    typeof(IDbContextFactory<AppDbContext>),
-                };
+                typeof(DbContextOptions<AppDbContext>),
+                typeof(IDbContextFactory<AppDbContext>),
+            };
 
-                var toRemove = services.Where(e => typesToRemove.Contains(e.ServiceType)).ToList();
-                foreach (var descriptor in toRemove)
-                {
-                    services.Remove(descriptor);
-                }
+            var toRemove = services.Where(e => typesToRemove.Contains(e.ServiceType)).ToList();
+            foreach (var descriptor in toRemove)
+            {
+                services.Remove(descriptor);
+            }
 
-                services.AddPooledDbContextFactory<AppDbContext>(options =>
-                {
-                    options.UseInMemoryDatabase("InMemoryDbForTesting");
-                });
-
-                var sp = services.BuildServiceProvider();
-                var db = sp.GetRequiredService<IDbContextFactory<AppDbContext>>().CreateDbContext();
-                db.Database.EnsureCreated();
-
-                Utils.SeedTestData(db);
-
-                Program.Container.Options.AllowOverridingRegistrations = true;
-                // TODO: swap SimpleInjector services with the test ones
+            services.AddPooledDbContextFactory<AppDbContext>(options =>
+            {
+                options.UseInMemoryDatabase("InMemoryDbForTesting");
             });
+
+            var sp = services.BuildServiceProvider();
+            var db = sp.GetRequiredService<IDbContextFactory<AppDbContext>>().CreateDbContext();
+            db.Database.EnsureCreated();
+
+            Utils.SeedTestData(db);
+
+            Program.Container.Options.AllowOverridingRegistrations = true;
+            // TODO: swap SimpleInjector services with the test ones
         });
     }
 }
