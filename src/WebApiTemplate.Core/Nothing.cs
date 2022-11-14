@@ -6,7 +6,7 @@ namespace WebApiTemplate.Core;
 /// </summary>
 public class Nothing
 {
-    public static readonly Nothing Instance = new Nothing();
+    public static readonly Nothing Instance = new();
 
     private Nothing() { }
 

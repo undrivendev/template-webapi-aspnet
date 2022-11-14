@@ -3,12 +3,12 @@ using Microsoft.Extensions.Logging;
 
 namespace WebApiTemplate.Application;
 
-public class IMediatorLoggingDecorator : IMediator
+public class MediatorLoggingDecorator : IMediator
 {
     private readonly IMediator _decorated;
     private readonly ILogger<IMediator> _logger;
 
-    public IMediatorLoggingDecorator(IMediator decorated, ILogger<IMediator> logger)
+    public MediatorLoggingDecorator(IMediator decorated, ILogger<IMediator> logger)
     {
         _decorated = decorated;
         _logger = logger;

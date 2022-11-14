@@ -4,12 +4,12 @@ using Microsoft.Extensions.Caching.Distributed;
 
 namespace WebApiTemplate.Application;
 
-public class IMediatorCachingDecorator : IMediator
+public class MediatorCachingDecorator : IMediator
 {
     private readonly IMediator _decorated;
     private readonly IDistributedCache _cache;
 
-    public IMediatorCachingDecorator(IMediator decorated, IDistributedCache cache)
+    public MediatorCachingDecorator(IMediator decorated, IDistributedCache cache)
     {
         _decorated = decorated;
         _cache = cache;
@@ -51,7 +51,7 @@ public class IMediatorCachingDecorator : IMediator
     /// <returns></returns>
     public async Task<TCommandResult> SendCommand<TCommand, TCommandResult>(
         TCommand command,
-        CancellationToken cancellationToken = new CancellationToken()
+        CancellationToken cancellationToken = new()
     ) where TCommand : ICommand<TCommandResult> =>
         await _decorated.SendCommand<TCommand, TCommandResult>(command, cancellationToken);
 }

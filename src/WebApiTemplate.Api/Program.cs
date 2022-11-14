@@ -71,8 +71,8 @@ try
     container.Register<IMediator>(() => new Mediator((Container as IServiceProvider).GetService));
 
     // mediator decorators
-    container.RegisterDecorator(typeof(IMediator), typeof(IMediatorCachingDecorator));
-    container.RegisterDecorator(typeof(IMediator), typeof(IMediatorLoggingDecorator));
+    container.RegisterDecorator(typeof(IMediator), typeof(MediatorCachingDecorator));
+    container.RegisterDecorator(typeof(IMediator), typeof(MediatorLoggingDecorator));
 
     // mediator handlers
     container.Register(typeof(ICommandHandler<,>), typeof(CreateCustomerCommandHandler).Assembly);
