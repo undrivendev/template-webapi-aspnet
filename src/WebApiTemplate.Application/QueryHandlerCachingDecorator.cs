@@ -1,6 +1,6 @@
 using System.Text.Json;
+using HumbleMediator;
 using Microsoft.Extensions.Caching.Distributed;
-using WebApiTemplate.Core.Mediator;
 
 namespace WebApiTemplate.Application;
 

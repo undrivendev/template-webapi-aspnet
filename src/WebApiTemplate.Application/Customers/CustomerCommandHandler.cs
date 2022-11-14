@@ -1,7 +1,7 @@
+using HumbleMediator;
 using WebApiTemplate.Application.Customers.Commands;
 using WebApiTemplate.Core;
 using WebApiTemplate.Core.Customers;
-using WebApiTemplate.Core.Mediator;
 
 namespace WebApiTemplate.Application.Customers;
 

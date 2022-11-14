@@ -1,3 +1,5 @@
+using System.ComponentModel;
+using HumbleMediator;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
@@ -7,10 +9,9 @@ using WebApiTemplate.Application;
 using WebApiTemplate.Application.Customers;
 using WebApiTemplate.Core;
 using WebApiTemplate.Core.Customers;
-using WebApiTemplate.Core.Mediator;
-using WebApiTemplate.Core.Mediator.DependencyInjection;
 using WebApiTemplate.Infrastructure.Customers;
 using WebApiTemplate.Infrastructure.Persistence;
+using Container = SimpleInjector.Container;
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
@@ -57,8 +58,7 @@ try
     container.Register<IUnitOfWorkFactory, UnitOfWorkFactory>();
 
 // mediator
-    container.Register<IContainer>(() => new ContainerServiceProviderWrapper(container));
-    container.Register<IMediator, Mediator>();
+    container.Register<IMediator>(() => new Mediator((Container as IServiceProvider).GetService));
 
 // mediator handlers
     container.Register(

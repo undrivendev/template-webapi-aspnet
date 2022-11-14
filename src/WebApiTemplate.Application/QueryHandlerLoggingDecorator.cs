@@ -1,5 +1,5 @@
+using HumbleMediator;
 using Microsoft.Extensions.Logging;
-using WebApiTemplate.Core.Mediator;
 
 namespace WebApiTemplate.Application;
 

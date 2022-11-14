@@ -1,5 +1,5 @@
+using HumbleMediator;
 using Microsoft.AspNetCore.Mvc;
-using WebApiTemplate.Core.Mediator;
 
 namespace WebApiTemplate.Api;
 
