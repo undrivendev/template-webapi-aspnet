@@ -1,19 +1,15 @@
-using System.ComponentModel;
 using HumbleMediator;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
 using SimpleInjector;
-using WebApiTemplate.Api;
 using WebApiTemplate.Application;
-using WebApiTemplate.Application.Customers;
 using WebApiTemplate.Application.Customers.Commands;
 using WebApiTemplate.Application.Customers.Queries;
 using WebApiTemplate.Core;
 using WebApiTemplate.Core.Customers;
 using WebApiTemplate.Infrastructure.Customers;
 using WebApiTemplate.Infrastructure.Persistence;
-using Container = SimpleInjector.Container;
 
 Log.Logger = new LoggerConfiguration().MinimumLevel
     .Override("Microsoft", LogEventLevel.Information)
@@ -74,20 +70,13 @@ try
     // mediator
     container.Register<IMediator>(() => new Mediator((Container as IServiceProvider).GetService));
 
+    // mediator decorators
+    container.RegisterDecorator(typeof(IMediator), typeof(IMediatorCachingDecorator));
+    container.RegisterDecorator(typeof(IMediator), typeof(IMediatorLoggingDecorator));
+
     // mediator handlers
     container.Register(typeof(ICommandHandler<,>), typeof(CreateCustomerCommandHandler).Assembly);
-
     container.Register(typeof(IQueryHandler<,>), typeof(GetCustomerByIdQueryHandler).Assembly);
-
-    // handlers decorators
-    container.RegisterDecorator(
-        typeof(ICommandHandler<,>),
-        typeof(CommandHandlerLoggingDecorator<,>)
-    );
-
-    container.RegisterDecorator(typeof(IQueryHandler<,>), typeof(QueryHandlerLoggingDecorator<,>));
-
-    container.RegisterDecorator(typeof(IQueryHandler<,>), typeof(QueryHandlerCachingDecorator<,>));
 
     var app = builder.Build();
 
