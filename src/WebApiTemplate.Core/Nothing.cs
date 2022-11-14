@@ -8,9 +8,7 @@ public class Nothing
 {
     public static readonly Nothing Instance = new Nothing();
 
-    private Nothing()
-    {
-    }
+    private Nothing() { }
 
     public override string ToString() => "Nothing";
 }

@@ -17,7 +17,9 @@ public abstract class ReadRepositoryBase<T> : IReadRepository<T> where T : BaseE
 
     public virtual async Task<T> GetById(int id)
     {
-        await using DbConnection conn = new NpgsqlConnection(_options.CurrentValue.ConnectionString);
+        await using DbConnection conn = new NpgsqlConnection(
+            _options.CurrentValue.ConnectionString
+        );
         return await conn.GetAsync<T>(id);
     }
 }

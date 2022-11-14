@@ -13,13 +13,19 @@ public class CustomerCommandHandler
     private readonly IUnitOfWorkFactory _uowFactory;
     private readonly ICustomerWriteRepository _repository;
 
-    public CustomerCommandHandler(IUnitOfWorkFactory uowFactory, ICustomerWriteRepository repository)
+    public CustomerCommandHandler(
+        IUnitOfWorkFactory uowFactory,
+        ICustomerWriteRepository repository
+    )
     {
         _uowFactory = uowFactory;
         _repository = repository;
     }
 
-    public async Task<int> Handle(CreateCustomerCommand command, CancellationToken cancellationToken = default)
+    public async Task<int> Handle(
+        CreateCustomerCommand command,
+        CancellationToken cancellationToken = default
+    )
     {
         await using var uow = await _uowFactory.Create(cancellationToken);
         await _repository.Create(command.Customer, uow);
@@ -27,7 +33,10 @@ public class CustomerCommandHandler
         return command.Customer.Id ?? throw new InvalidOperationException("New customer has no Id");
     }
 
-    public async Task<Nothing> Handle(UpdateCustomerCommand command, CancellationToken cancellationToken = default)
+    public async Task<Nothing> Handle(
+        UpdateCustomerCommand command,
+        CancellationToken cancellationToken = default
+    )
     {
         await using var uow = await _uowFactory.Create(cancellationToken);
         await _repository.Update(command.Customer, uow);
@@ -35,7 +44,10 @@ public class CustomerCommandHandler
         return Nothing.Instance;
     }
 
-    public async Task<Nothing> Handle(DeleteCustomerCommand command, CancellationToken cancellationToken = default)
+    public async Task<Nothing> Handle(
+        DeleteCustomerCommand command,
+        CancellationToken cancellationToken = default
+    )
     {
         await using var uow = await _uowFactory.Create(cancellationToken);
         await _repository.Delete(command.Id, uow);

@@ -11,7 +11,8 @@ public class QueryHandlerLoggingDecorator<TQuery, TResult> : IQueryHandler<TQuer
 
     public QueryHandlerLoggingDecorator(
         IQueryHandler<TQuery, TResult> decorated,
-        ILogger<QueryHandlerLoggingDecorator<TQuery, TResult>> logger)
+        ILogger<QueryHandlerLoggingDecorator<TQuery, TResult>> logger
+    )
     {
         _decorated = decorated;
         _logger = logger;

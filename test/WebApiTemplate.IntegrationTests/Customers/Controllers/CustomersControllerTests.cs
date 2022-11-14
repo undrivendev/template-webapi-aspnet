@@ -25,12 +25,11 @@ public class CustomersControllerTests : IClassFixture<AppWebApplicationFactory>
         _factory = factory;
     }
 
-
     [Fact]
     public async Task GetById_ValidRequest_ReturnsCorrectly()
     {
         var client = _factory.CreateClient();
-        
+
         var response = await client.GetAsync("/api/customers/1");
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var customer = await response.Content.ReadFromJsonAsync<Customer>();

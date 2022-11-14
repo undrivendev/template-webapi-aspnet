@@ -1,5 +1,3 @@
 namespace WebApiTemplate.Infrastructure.Persistence;
 
-public class WriteRepositoryOptions : RepositoryOptions
-{
-}
+public class WriteRepositoryOptions : RepositoryOptions { }

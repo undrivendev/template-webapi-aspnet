@@ -13,6 +13,8 @@ public class CustomerQueryHandler : IQueryHandler<GetCustomerByIdQuery, Customer
         _customerReadRepository = customerReadRepository;
     }
 
-    public Task<Customer> Handle(GetCustomerByIdQuery query, CancellationToken cancellationToken = default)
-        => _customerReadRepository.GetById(query.Id);
+    public Task<Customer> Handle(
+        GetCustomerByIdQuery query,
+        CancellationToken cancellationToken = default
+    ) => _customerReadRepository.GetById(query.Id);
 }

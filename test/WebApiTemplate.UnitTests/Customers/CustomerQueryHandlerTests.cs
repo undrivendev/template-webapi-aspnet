@@ -18,7 +18,7 @@ public class UnitTest1
         mock.Setup(e => e.GetById(It.IsAny<int>())).ReturnsAsync(expected);
 
         var sut = new CustomerQueryHandler(mock.Object);
-        
+
         // Act
         var result = sut.Handle(new GetCustomerByIdQuery(1));
 

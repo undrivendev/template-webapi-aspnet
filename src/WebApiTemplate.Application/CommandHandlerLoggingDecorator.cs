@@ -11,13 +11,17 @@ public class CommandHandlerLoggingDecorator<TCommand, TResult> : ICommandHandler
 
     public CommandHandlerLoggingDecorator(
         ICommandHandler<TCommand, TResult> decorated,
-        ILogger<CommandHandlerLoggingDecorator<TCommand, TResult>> logger)
+        ILogger<CommandHandlerLoggingDecorator<TCommand, TResult>> logger
+    )
     {
         _decorated = decorated;
         _logger = logger;
     }
 
-    public async Task<TResult> Handle(TCommand command, CancellationToken cancellationToken = default)
+    public async Task<TResult> Handle(
+        TCommand command,
+        CancellationToken cancellationToken = default
+    )
     {
         var commandName = typeof(TCommand).Name;
         try

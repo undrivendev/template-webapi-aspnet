@@ -13,8 +13,8 @@ using WebApiTemplate.Infrastructure.Customers;
 using WebApiTemplate.Infrastructure.Persistence;
 using Container = SimpleInjector.Container;
 
-Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+Log.Logger = new LoggerConfiguration().MinimumLevel
+    .Override("Microsoft", LogEventLevel.Information)
     .Enrich.FromLogContext()
     .WriteTo.Console()
     .CreateLogger();
@@ -26,69 +26,74 @@ try
     var builder = WebApplication.CreateBuilder(args);
     builder.Host.UseSerilog(); // replace built-in logging with Serilog
 
-// Add services to the container.
+    // Add services to the container.
     builder.Services.AddControllers();
 
-// swagger
+    // swagger
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
-// persistence
-    builder.Services.AddPooledDbContextFactory<AppDbContext>(options =>
-        options.UseNpgsql(builder.Configuration.GetSection("Repository").Get<WriteRepositoryOptions>().ConnectionString
-                          ?? throw new ArgumentNullException("connectionString"))
-            .UseSnakeCaseNamingConvention());
+    // persistence
+    builder.Services.AddPooledDbContextFactory<AppDbContext>(
+        options =>
+            options
+                .UseNpgsql(
+                    builder.Configuration
+                        .GetSection("Repository")
+                        .Get<WriteRepositoryOptions>()
+                        .ConnectionString ?? throw new ArgumentNullException("connectionString")
+                )
+                .UseSnakeCaseNamingConvention()
+    );
     builder.Services.AddDistributedMemoryCache();
 
-// SimpleInjector
+    // SimpleInjector
     var container = Container;
     container.Options.DefaultLifestyle = Lifestyle.Singleton;
-    builder.Services.AddSimpleInjector(container, options => options.AddAspNetCore().AddControllerActivation());
-    builder.Services.Configure<ReadRepositoryOptions>(builder.Configuration.GetSection("Repository"));
-    container.Register(() =>
-            builder.Configuration.GetSection("Repository")
-                .Get<ReadRepositoryOptions>(),
-        Lifestyle.Scoped);
+    builder.Services.AddSimpleInjector(
+        container,
+        options => options.AddAspNetCore().AddControllerActivation()
+    );
+    builder.Services.Configure<ReadRepositoryOptions>(
+        builder.Configuration.GetSection("Repository")
+    );
+    container.Register(
+        () => builder.Configuration.GetSection("Repository").Get<ReadRepositoryOptions>(),
+        Lifestyle.Scoped
+    );
     container.Register<ICustomerReadRepository, CustomerReadRepository>();
-    container.Register(() =>
-            builder.Configuration.GetSection("Repository")
-                .Get<WriteRepositoryOptions>(),
-        Lifestyle.Scoped);
+    container.Register(
+        () => builder.Configuration.GetSection("Repository").Get<WriteRepositoryOptions>(),
+        Lifestyle.Scoped
+    );
     container.Register<ICustomerWriteRepository, CustomerWriteRepository>();
     container.Register<IUnitOfWorkFactory, UnitOfWorkFactory>();
 
-// mediator
+    // mediator
     container.Register<IMediator>(() => new Mediator((Container as IServiceProvider).GetService));
 
-// mediator handlers
-    container.Register(
-        typeof(ICommandHandler<,>),
-        typeof(CustomerCommandHandler).Assembly);
+    // mediator handlers
+    container.Register(typeof(ICommandHandler<,>), typeof(CustomerCommandHandler).Assembly);
 
-    container.Register(
-        typeof(IQueryHandler<,>),
-        typeof(CustomerQueryHandler).Assembly);
+    container.Register(typeof(IQueryHandler<,>), typeof(CustomerQueryHandler).Assembly);
 
-// handlers decorators
+    // handlers decorators
     container.RegisterDecorator(
         typeof(ICommandHandler<,>),
-        typeof(CommandHandlerLoggingDecorator<,>));
+        typeof(CommandHandlerLoggingDecorator<,>)
+    );
 
-    container.RegisterDecorator(
-        typeof(IQueryHandler<,>),
-        typeof(QueryHandlerLoggingDecorator<,>));
+    container.RegisterDecorator(typeof(IQueryHandler<,>), typeof(QueryHandlerLoggingDecorator<,>));
 
-    container.RegisterDecorator(
-        typeof(IQueryHandler<,>),
-        typeof(QueryHandlerCachingDecorator<,>));
+    container.RegisterDecorator(typeof(IQueryHandler<,>), typeof(QueryHandlerCachingDecorator<,>));
 
     var app = builder.Build();
 
     app.Services.UseSimpleInjector(container);
 
-// Apply pending EF Core migrations automatically in development mode.
-// To do that in production, especially in multi-instance scenarios, you need
-// to make sure that migrations are applied as a separate deploy step to prevent data corruption.
+    // Apply pending EF Core migrations automatically in development mode.
+    // To do that in production, especially in multi-instance scenarios, you need
+    // to make sure that migrations are applied as a separate deploy step to prevent data corruption.
     if (app.Environment.IsDevelopment())
     {
         var dbContextFactory = app.Services.GetRequiredService<IDbContextFactory<AppDbContext>>();
@@ -102,7 +107,7 @@ try
 
     app.UseSerilogRequestLogging();
 
-// Configure the HTTP request pipeline.
+    // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();

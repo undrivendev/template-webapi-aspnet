@@ -12,7 +12,8 @@ public class QueryHandlerCachingDecorator<TQuery, TResult> : IQueryHandler<TQuer
 
     public QueryHandlerCachingDecorator(
         IQueryHandler<TQuery, TResult> decorated,
-        IDistributedCache cache)
+        IDistributedCache cache
+    )
     {
         _decorated = decorated;
         _cache = cache;
@@ -35,7 +36,8 @@ public class QueryHandlerCachingDecorator<TQuery, TResult> : IQueryHandler<TQuer
             {
                 AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5), // TODO: parametrize
             },
-            cancellationToken);
+            cancellationToken
+        );
 
         return result;
     }

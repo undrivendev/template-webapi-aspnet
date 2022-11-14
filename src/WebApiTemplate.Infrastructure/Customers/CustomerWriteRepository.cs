@@ -6,7 +6,5 @@ namespace WebApiTemplate.Infrastructure.Customers;
 
 public class CustomerWriteRepository : WriteRepositoryBase<Customer>, ICustomerWriteRepository
 {
-    public CustomerWriteRepository() : base()
-    {
-    }
+    public CustomerWriteRepository() : base() { }
 }
