@@ -17,7 +17,7 @@ public class UnitTest1
         var mock = new Mock<ICustomerReadRepository>();
         mock.Setup(e => e.GetById(It.IsAny<int>())).ReturnsAsync(expected);
 
-        var sut = new CustomerQueryHandler(mock.Object);
+        var sut = new GetCustomerByIdQueryHandler(mock.Object);
 
         // Act
         var result = sut.Handle(new GetCustomerByIdQuery(1));

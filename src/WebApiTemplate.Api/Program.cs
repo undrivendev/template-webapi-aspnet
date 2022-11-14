@@ -7,6 +7,8 @@ using SimpleInjector;
 using WebApiTemplate.Api;
 using WebApiTemplate.Application;
 using WebApiTemplate.Application.Customers;
+using WebApiTemplate.Application.Customers.Commands;
+using WebApiTemplate.Application.Customers.Queries;
 using WebApiTemplate.Core;
 using WebApiTemplate.Core.Customers;
 using WebApiTemplate.Infrastructure.Customers;
@@ -73,9 +75,9 @@ try
     container.Register<IMediator>(() => new Mediator((Container as IServiceProvider).GetService));
 
     // mediator handlers
-    container.Register(typeof(ICommandHandler<,>), typeof(CustomerCommandHandler).Assembly);
+    container.Register(typeof(ICommandHandler<,>), typeof(CreateCustomerCommandHandler).Assembly);
 
-    container.Register(typeof(IQueryHandler<,>), typeof(CustomerQueryHandler).Assembly);
+    container.Register(typeof(IQueryHandler<,>), typeof(GetCustomerByIdQueryHandler).Assembly);
 
     // handlers decorators
     container.RegisterDecorator(

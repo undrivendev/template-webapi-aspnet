@@ -2,13 +2,13 @@ using HumbleMediator;
 using WebApiTemplate.Application.Customers.Queries;
 using WebApiTemplate.Core.Customers;
 
-namespace WebApiTemplate.Application.Customers;
+namespace WebApiTemplate.Application.Customers.Queries;
 
-public class CustomerQueryHandler : IQueryHandler<GetCustomerByIdQuery, Customer>
+public class GetCustomerByIdQueryHandler : IQueryHandler<GetCustomerByIdQuery, Customer>
 {
     private readonly ICustomerReadRepository _customerReadRepository;
 
-    public CustomerQueryHandler(ICustomerReadRepository customerReadRepository)
+    public GetCustomerByIdQueryHandler(ICustomerReadRepository customerReadRepository)
     {
         _customerReadRepository = customerReadRepository;
     }
