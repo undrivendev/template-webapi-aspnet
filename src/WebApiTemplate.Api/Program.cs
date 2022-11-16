@@ -68,7 +68,7 @@ try
     container.Register<IUnitOfWorkFactory, UnitOfWorkFactory>();
 
     // mediator
-    container.Register<IMediator>(() => new Mediator((Container as IServiceProvider).GetService));
+    container.Register<IMediator>(() => new Mediator(container.GetInstance));
 
     // mediator decorators
     container.RegisterDecorator(typeof(IMediator), typeof(MediatorCachingDecorator));
