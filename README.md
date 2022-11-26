@@ -19,14 +19,14 @@ I found implementations of similar samples/templates to often be overly complica
 - Migrations handled by Entity Framework and automatically applied during startup (in dev environment)
 - [SimpleInjector](https://simpleinjector.org/) open-source DI container integration for advanced service registration scenarios
 - [Aspect-oriented programming](https://en.wikipedia.org/wiki/Aspect-oriented_programming) using [Decorators](https://en.wikipedia.org/wiki/Decorator_pattern) on the above-mentioned mediator
-  - Logging: [MediatorLoggingDecorator](src/WebApiTemplate.Application/MediatorLoggingDecorator.cs)
-  - Caching: [MediatorCachingDecorator](src/WebApiTemplate.Application/MediatorCachingDecorator.cs)
+  - Logging: [QueryHandlerLoggingDecorator](src/WebApiTemplate.Application/Logging/QueryHandlerLoggingDecorator.cs) and [CommandHandlerLoggingDecorator](src/WebApiTemplate.Application/Logging/CommandHandlerLoggingDecorator.cs)
+  - Caching: [QueryHandlerCachingDecorator](src/WebApiTemplate.Application/QueryHandlerCachingDecorator.cs)
+  - Validation: [CommandHandlerValidationDecorator](src/WebApiTemplate.Application/Validation/CommandHandlerValidationDecorator.cs) and [QueryHandlerValidationDecorator](src/WebApiTemplate.Application/Validation/QueryHandlerValidationDecorator.cs)
 - Structured logging using the standard [MEL](https://github.com/dotnet/runtime/tree/main/src/libraries/Microsoft.Extensions.Logging.Abstractions) interface with the open-source [Serilog](https://serilog.net/) logging library implementation
 - Cache-friendly [Dockerfile](src/WebApiTemplate.Api/Dockerfile)
 - Testing using [xUnit](https://xunit.net/) and [FluentAssertions](https://fluentassertions.com/)
 
 ### TODO
-- Validation decorator
 - Integration testing using docker containers
 - Upgrade to .NET 7
 - Dotnet template
