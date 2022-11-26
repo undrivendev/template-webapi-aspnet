@@ -69,31 +69,35 @@ try
     container.Register<ICustomerWriteRepository, CustomerWriteRepository>();
     container.Register<IUnitOfWorkFactory, UnitOfWorkFactory>();
 
+    // validators
+    container.Collection.Register(
+        typeof(IValidator<>),
+        typeof(GetCustomerByIdQueryValidator).Assembly
+    );
+
     // mediator
     container.Register<IMediator>(() => new Mediator(container.GetInstance));
-
-    // mediator decorators
-    container.RegisterDecorator(typeof(IMediator), typeof(MediatorCachingDecorator));
-    container.RegisterDecorator(typeof(IMediator), typeof(MediatorLoggingDecorator));
 
     // mediator handlers
     container.Register(typeof(ICommandHandler<,>), typeof(CreateCustomerCommandHandler).Assembly);
     container.Register(typeof(IQueryHandler<,>), typeof(GetCustomerByIdQueryHandler).Assembly);
 
-    // mediator handlers decorators
+    // mediator handlers decorators - queries pipeline
     container.RegisterDecorator(
         typeof(IQueryHandler<,>),
         typeof(QueryHandlerValidationDecorator<,>)
     );
+    container.RegisterDecorator(typeof(IQueryHandler<,>), typeof(QueryHandlerCachingDecorator<,>));
+    container.RegisterDecorator(typeof(IQueryHandler<,>), typeof(QueryHandlerLoggingDecorator<,>));
+
+    // mediator handlers decorators - commands pipeline
     container.RegisterDecorator(
         typeof(ICommandHandler<,>),
         typeof(CommandHandlerValidationDecorator<,>)
     );
-
-    // validators
-    container.Collection.Register(
-        typeof(IValidator<>),
-        typeof(GetCustomerByIdQueryValidator).Assembly
+    container.RegisterDecorator(
+        typeof(ICommandHandler<,>),
+        typeof(CommandHandlerLoggingDecorator<,>)
     );
 
     var app = builder.Build();

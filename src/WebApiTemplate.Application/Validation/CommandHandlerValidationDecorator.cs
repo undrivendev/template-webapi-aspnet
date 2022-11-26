@@ -17,9 +17,9 @@ public sealed class CommandHandlerValidationDecorator<TCommand, TCommandResult>
         _decorated = decorated;
     }
 
-    public async Task<TCommandResult> Handle(TCommand command, CancellationToken cancellationToken)
+    public async Task<TCommandResult> Handle(TCommand request, CancellationToken cancellationToken)
     {
-        await Validate(command, cancellationToken);
-        return await _decorated.Handle(command, cancellationToken);
+        await Validate(request, cancellationToken);
+        return await _decorated.Handle(request, cancellationToken);
     }
 }

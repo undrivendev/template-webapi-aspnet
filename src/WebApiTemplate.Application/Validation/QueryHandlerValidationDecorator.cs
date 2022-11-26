@@ -17,9 +17,9 @@ public sealed class QueryHandlerValidationDecorator<TQuery, TQueryResult>
         _decorated = decorated;
     }
 
-    public async Task<TQueryResult> Handle(TQuery command, CancellationToken cancellationToken)
+    public async Task<TQueryResult> Handle(TQuery request, CancellationToken cancellationToken)
     {
-        await Validate(command, cancellationToken);
-        return await _decorated.Handle(command, cancellationToken);
+        await Validate(request, cancellationToken);
+        return await _decorated.Handle(request, cancellationToken);
     }
 }

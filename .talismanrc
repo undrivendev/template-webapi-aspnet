@@ -1,4 +1,4 @@
 fileignoreconfig:
-- filename: src/WebApiTemplate.Application/IMediatorCachingDecorator.cs
-  checksum: 1b24f2537fc594280030c55403635e140554867b9d512d74e8d03d5f956322b9
+- filename: src/WebApiTemplate.Application/QueryHandlerCachingDecorator.cs
+  checksum: ec7a355dd536358b6b67ff15df3af6918344e5fc404d3ad07d7dd096ea841af7
 version: ""
