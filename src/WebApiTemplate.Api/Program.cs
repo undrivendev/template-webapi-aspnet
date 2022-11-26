@@ -1,3 +1,4 @@
+using FluentValidation;
 using HumbleMediator;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -6,6 +7,7 @@ using SimpleInjector;
 using WebApiTemplate.Application;
 using WebApiTemplate.Application.Customers.Commands;
 using WebApiTemplate.Application.Customers.Queries;
+using WebApiTemplate.Application.Validation;
 using WebApiTemplate.Core;
 using WebApiTemplate.Core.Customers;
 using WebApiTemplate.Infrastructure.Customers;
@@ -77,6 +79,22 @@ try
     // mediator handlers
     container.Register(typeof(ICommandHandler<,>), typeof(CreateCustomerCommandHandler).Assembly);
     container.Register(typeof(IQueryHandler<,>), typeof(GetCustomerByIdQueryHandler).Assembly);
+
+    // mediator handlers decorators
+    container.RegisterDecorator(
+        typeof(IQueryHandler<,>),
+        typeof(QueryHandlerValidationDecorator<,>)
+    );
+    container.RegisterDecorator(
+        typeof(ICommandHandler<,>),
+        typeof(CommandHandlerValidationDecorator<,>)
+    );
+
+    // validators
+    container.Collection.Register(
+        typeof(IValidator<>),
+        typeof(GetCustomerByIdQueryValidator).Assembly
+    );
 
     var app = builder.Build();
 

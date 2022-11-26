@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace WebApiTemplate.Application;
 
-public class MediatorLoggingDecorator : IMediator
+public sealed class MediatorLoggingDecorator : IMediator
 {
     private readonly IMediator _decorated;
     private readonly ILogger<IMediator> _logger;
@@ -16,7 +16,7 @@ public class MediatorLoggingDecorator : IMediator
 
     public async Task<TQueryResult> SendQuery<TQuery, TQueryResult>(
         TQuery query,
-        CancellationToken cancellationToken = new()
+        CancellationToken cancellationToken
     ) where TQuery : IQuery<TQueryResult> =>
         await HandleAndLogMessage(
             query,
@@ -26,7 +26,7 @@ public class MediatorLoggingDecorator : IMediator
 
     public async Task<TCommandResult> SendCommand<TCommand, TCommandResult>(
         TCommand command,
-        CancellationToken cancellationToken = new()
+        CancellationToken cancellationToken
     ) where TCommand : ICommand<TCommandResult> =>
         await HandleAndLogMessage(
             command,

@@ -3,4 +3,4 @@ using WebApiTemplate.Core.Customers;
 
 namespace WebApiTemplate.Application.Customers.Queries;
 
-public record GetCustomerByIdQuery(int Id) : IQuery<Customer>;
+public sealed record GetCustomerByIdQuery(int Id) : IQuery<Customer>;

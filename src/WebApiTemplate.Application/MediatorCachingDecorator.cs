@@ -4,7 +4,7 @@ using Microsoft.Extensions.Caching.Distributed;
 
 namespace WebApiTemplate.Application;
 
-public class MediatorCachingDecorator : IMediator
+public sealed class MediatorCachingDecorator : IMediator
 {
     private readonly IMediator _decorated;
     private readonly IDistributedCache _cache;
@@ -17,7 +17,7 @@ public class MediatorCachingDecorator : IMediator
 
     public async Task<TQueryResult> SendQuery<TQuery, TQueryResult>(
         TQuery query,
-        CancellationToken cancellationToken = new()
+        CancellationToken cancellationToken
     ) where TQuery : IQuery<TQueryResult>
     {
         var cacheKey = $"{typeof(TQuery).Name}-{JsonSerializer.Serialize(query)}";
@@ -51,7 +51,7 @@ public class MediatorCachingDecorator : IMediator
     /// <returns></returns>
     public async Task<TCommandResult> SendCommand<TCommand, TCommandResult>(
         TCommand command,
-        CancellationToken cancellationToken = new()
+        CancellationToken cancellationToken
     ) where TCommand : ICommand<TCommandResult> =>
         await _decorated.SendCommand<TCommand, TCommandResult>(command, cancellationToken);
 }
