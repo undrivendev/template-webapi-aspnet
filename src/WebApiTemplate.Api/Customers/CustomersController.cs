@@ -9,7 +9,7 @@ using WebApiTemplate.Core.Customers;
 
 namespace WebApiTemplate.Api.Customers;
 
-public class CustomersController : AppControllerBase
+public sealed class CustomersController : AppControllerBase
 {
     public CustomersController(IMediator mediator) : base(mediator) { }
 
@@ -18,7 +18,7 @@ public class CustomersController : AppControllerBase
     public async Task<ActionResult<CustomerCreatedResponse>> Create(CreateCustomerRequest request)
     {
         var id = await _mediator.SendCommand<CreateCustomerCommand, int>(
-            new CreateCustomerCommand(request.ToDomainEntity())
+            new CreateCustomerCommand(CreateCustomerRequest.ToDomainEntity())
         );
         return CreatedAtAction(nameof(Get), new { id }, new CustomerCreatedResponse(id));
     }
@@ -33,7 +33,7 @@ public class CustomersController : AppControllerBase
     public async Task<IActionResult> Update(int id, UpdateCustomerRequest request)
     {
         await _mediator.SendCommand<UpdateCustomerCommand, Nothing>(
-            new UpdateCustomerCommand(id, request.ToDomainEntity())
+            new UpdateCustomerCommand(id, UpdateCustomerRequest.ToDomainEntity())
         );
         return NoContent();
     }
