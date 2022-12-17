@@ -29,8 +29,6 @@ I found implementations of similar samples/templates to often be overly complica
 ### TODO
 - Integration testing using docker containers
 - Upgrade to .NET 7
-- Dotnet template
-- cookiecutter template
 
 
 ## Usage
@@ -40,6 +38,9 @@ Here are a couple of ways to bootstrap a new project starting from this template
 You could use this project as a GitHub template and clone it in your personal account by using the `Use this template` green button on the top of the page.
 
 Then you'd have to rename classes and namespaces.
+#### Cookiecutter template
+1. Install [cookiecutter](https://www.cookiecutter.io/).
+2. Bootstrap initial project with the following command: `cookiecutter gh:undrivendev/template-webapi-aspnet --checkout cookiecutter`
 
 ### 2. Apply initial migration
 When you have the project ready, it's time to create the initial migration using [dotnet-ef](https://docs.microsoft.com/en-us/ef/core/cli/dotnet) (or if you use Rider, like me, you can try [this plugin](https://plugins.jetbrains.com/plugin/18147-entity-framework-core-ui)).
