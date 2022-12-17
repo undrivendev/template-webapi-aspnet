@@ -28,8 +28,6 @@ I found implementations of similar samples/templates to often be overly complica
 
 ### TODO
 - Integration testing using docker containers
-- Upgrade to .NET 7
-
 
 ## Usage
 ### 1. Bootstrap your project (WIP)
@@ -39,6 +37,7 @@ You could use this project as a GitHub template and clone it in your personal ac
 
 Then you'd have to rename classes and namespaces.
 #### Cookiecutter template
+Probably the best way to bootstrap this project, just with one command.
 1. Install [cookiecutter](https://www.cookiecutter.io/).
 2. Bootstrap initial project with the following command: `cookiecutter gh:undrivendev/template-webapi-aspnet --checkout cookiecutter`
 
