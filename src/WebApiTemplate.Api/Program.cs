@@ -54,9 +54,7 @@ try
         container,
         options => options.AddAspNetCore().AddControllerActivation()
     );
-    builder.Services.Configure<ReadRepositoryOptions>(
-        builder.Configuration.GetSection("Repository")
-    );
+
     container.Register(
         () => builder.Configuration.GetSection("Repository").Get<ReadRepositoryOptions>(),
         Lifestyle.Scoped

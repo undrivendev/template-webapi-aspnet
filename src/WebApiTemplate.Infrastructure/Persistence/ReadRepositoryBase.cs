@@ -8,18 +8,16 @@ namespace WebApiTemplate.Infrastructure.Persistence;
 
 public abstract class ReadRepositoryBase<T> : IReadRepository<T> where T : BaseEntity
 {
-    protected readonly IOptionsMonitor<ReadRepositoryOptions> _options;
+    protected readonly ReadRepositoryOptions _options;
 
-    public ReadRepositoryBase(IOptionsMonitor<ReadRepositoryOptions> options)
+    public ReadRepositoryBase(ReadRepositoryOptions options)
     {
         _options = options;
     }
 
     public virtual async Task<T> GetById(int id)
     {
-        await using DbConnection conn = new NpgsqlConnection(
-            _options.CurrentValue.ConnectionString
-        );
+        await using DbConnection conn = new NpgsqlConnection(_options.ConnectionString);
         return await conn.GetAsync<T>(id);
     }
 }

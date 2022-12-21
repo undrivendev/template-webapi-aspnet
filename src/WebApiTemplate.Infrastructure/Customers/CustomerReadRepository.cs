@@ -6,6 +6,5 @@ namespace WebApiTemplate.Infrastructure.Customers;
 
 public class CustomerReadRepository : ReadRepositoryBase<Customer>, ICustomerReadRepository
 {
-    public CustomerReadRepository(IOptionsMonitor<ReadRepositoryOptions> options) : base(options)
-    { }
+    public CustomerReadRepository(ReadRepositoryOptions options) : base(options) { }
 }
