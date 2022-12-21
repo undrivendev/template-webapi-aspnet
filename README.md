@@ -7,8 +7,8 @@ If you like this project, you learned something from it or you are using it in y
 I found implementations of similar samples/templates to often be overly complicated and over-engineered (IMO). This is an effort to create a more approachable, more maintainable solution that can be used as a starting point for the majority of real-world projects while, at the same time, striving to reach a sensible balance between flexibility and complexity.
 
 ## Features
-- Based on .NET 6 for Long Term Support
-- Simplified .NET 6 startup hosting model
+- Based on .NET 7 to have access to the latest features
+- Simplified Startup.cs hosting model
 - [CQRS](https://docs.microsoft.com/en-us/azure/architecture/patterns/cqrs) with full separation between Read and Write repositories
 - Simple [Mediator](https://en.wikipedia.org/wiki/Mediator_pattern) abstraction for CQRS and implementation relying on the chosen Dependency Injection container (see [HumbleMediator](https://en.wikipedia.org/wiki/Mediator_pattern))
 - Project structure following [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) principles
@@ -24,22 +24,22 @@ I found implementations of similar samples/templates to often be overly complica
   - Validation: [CommandHandlerValidationDecorator](src/WebApiTemplate.Application/Validation/CommandHandlerValidationDecorator.cs) and [QueryHandlerValidationDecorator](src/WebApiTemplate.Application/Validation/QueryHandlerValidationDecorator.cs)
 - Structured logging using the standard [MEL](https://github.com/dotnet/runtime/tree/main/src/libraries/Microsoft.Extensions.Logging.Abstractions) interface with the open-source [Serilog](https://serilog.net/) logging library implementation
 - Cache-friendly [Dockerfile](src/WebApiTemplate.Api/Dockerfile)
-- Testing using [xUnit](https://xunit.net/) and [FluentAssertions](https://fluentassertions.com/)
-
-### TODO
-- Integration testing using docker containers
+- Expressive testing using [xUnit](https://xunit.net/) and [FluentAssertions](https://fluentassertions.com/)
+- Integration testing using real database implementation with [Testcontainers](https://dotnet.testcontainers.org/)
 
 ## Usage
-### 1. Bootstrap your project (WIP)
+### 1. Bootstrap your project
 Here are a couple of ways to bootstrap a new project starting from this template.
+#### Cookiecutter template
+Probably the best way to bootstrap this project, with just one command, but some dependencies are needed.
+1. Make sure Python is installed
+2. Install [cookiecutter](https://www.cookiecutter.io/).
+3. Bootstrap initial project with the following command: `cookiecutter gh:undrivendev/template-webapi-aspnet --checkout cookiecutter`
 #### GitHub template
 You could use this project as a GitHub template and clone it in your personal account by using the `Use this template` green button on the top of the page.
 
 Then you'd have to rename classes and namespaces.
-#### Cookiecutter template
-Probably the best way to bootstrap this project, just with one command.
-1. Install [cookiecutter](https://www.cookiecutter.io/).
-2. Bootstrap initial project with the following command: `cookiecutter gh:undrivendev/template-webapi-aspnet --checkout cookiecutter`
+
 
 ### 2. Apply initial migration
 When you have the project ready, it's time to create the initial migration using [dotnet-ef](https://docs.microsoft.com/en-us/ef/core/cli/dotnet) (or if you use Rider, like me, you can try [this plugin](https://plugins.jetbrains.com/plugin/18147-entity-framework-core-ui)).
