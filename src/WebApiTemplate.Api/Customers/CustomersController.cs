@@ -20,13 +20,23 @@ public sealed class CustomersController : AppControllerBase
         var id = await _mediator.SendCommand<CreateCustomerCommand, int>(
             new CreateCustomerCommand(CreateCustomerRequest.ToDomainEntity())
         );
-        return CreatedAtAction(nameof(Get), new { id }, new CustomerCreatedResponse(id));
+        return CreatedAtAction(nameof(GetById), new { id }, new CustomerCreatedResponse(id));
     }
 
     [HttpGet]
     [Route("{id:int}")]
-    public async Task<ActionResult<Customer>> Get(int id) =>
-        Ok(await _mediator.SendQuery<GetCustomerByIdQuery, Customer>(new GetCustomerByIdQuery(id)));
+    public async Task<ActionResult<Customer>> GetById(int id)
+    {
+        var result = await _mediator.SendQuery<GetCustomerByIdQuery, Customer?>(
+            new GetCustomerByIdQuery(id)
+        );
+        if (result is null)
+        {
+            return NotFound();
+        }
+
+        return Ok(result);
+    }
 
     [HttpPut]
     [Route("{id:int}")]

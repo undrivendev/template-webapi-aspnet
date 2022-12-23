@@ -4,7 +4,7 @@ using WebApiTemplate.Core.Customers;
 
 namespace WebApiTemplate.Application.Customers.Queries;
 
-public class GetCustomerByIdQueryHandler : IQueryHandler<GetCustomerByIdQuery, Customer>
+public class GetCustomerByIdQueryHandler : IQueryHandler<GetCustomerByIdQuery, Customer?>
 {
     private readonly ICustomerReadRepository _customerReadRepository;
 
@@ -13,7 +13,7 @@ public class GetCustomerByIdQueryHandler : IQueryHandler<GetCustomerByIdQuery, C
         _customerReadRepository = customerReadRepository;
     }
 
-    public Task<Customer> Handle(
+    public Task<Customer?> Handle(
         GetCustomerByIdQuery query,
         CancellationToken cancellationToken = default
     ) => _customerReadRepository.GetById(query.Id);
