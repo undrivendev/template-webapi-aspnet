@@ -1,4 +1,6 @@
-This project can be used as a template to create new ASP.NET-based web APIs based on CQRS, Mediator, Clean Architecture patterns.
+This template can be used to bootstrap a working full-fledged ASP.NET Web Api project with a single CLI command (see below).
+
+It contains what I consider to be best practices/patterns, such as CQRS, Mediator, Clean Architectures.
 
 ## Like it? Give a star! :star:
 If you like this project, you learned something from it or you are using it in your applications, please press the star button. Thanks!
