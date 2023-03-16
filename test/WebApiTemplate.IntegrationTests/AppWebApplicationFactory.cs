@@ -1,5 +1,8 @@
-using System.Data;
-using System.Data.Common;
+// ReSharper disable ClassNeverInstantiated.Global
+
+#pragma warning disable CS8618
+
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using DotNet.Testcontainers.Builders;
@@ -9,11 +12,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Npgsql;
 using Respawn;
 using Respawn.Graph;
 using WebApiTemplate.Infrastructure.Persistence;
 using Xunit;
+
 
 namespace WebApiTemplate.IntegrationTests;
 
@@ -49,8 +52,7 @@ public class AppWebApplicationFactory : WebApplicationFactory<Program>, IAsyncLi
             connection,
             new RespawnerOptions
             {
-                DbAdapter = DbAdapter.Postgres,
-                TablesToIgnore = new Table[] { "__EFMigrationsHistory" },
+                DbAdapter = DbAdapter.Postgres, TablesToIgnore = new Table[] { "__EFMigrationsHistory" },
             }
         );
     }
@@ -61,10 +63,8 @@ public class AppWebApplicationFactory : WebApplicationFactory<Program>, IAsyncLi
         {
             var typesToRemove = new[]
             {
-                typeof(DbContextOptions),
-                typeof(DbContextOptions<AppDbContext>),
-                typeof(IDbContextFactory<AppDbContext>),
-                typeof(ReadRepositoryOptions),
+                typeof(DbContextOptions), typeof(DbContextOptions<AppDbContext>),
+                typeof(IDbContextFactory<AppDbContext>), typeof(ReadRepositoryOptions),
             };
 
             var toRemove = services.Where(e => typesToRemove.Contains(e.ServiceType)).ToList();
