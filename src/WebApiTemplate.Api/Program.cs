@@ -1,6 +1,7 @@
 using FluentValidation;
 using HumbleMediator;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using Serilog;
 using Serilog.Events;
 using SimpleInjector;
@@ -33,18 +34,18 @@ try
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
+    builder.Services.AddHealthChecks().AddDbContextCheck<AppDbContext>();
+
     // persistence
-    builder.Services.AddPooledDbContextFactory<AppDbContext>(
-        options =>
-            options
-                .UseNpgsql(
-                    builder.Configuration
-                        .GetSection("Repository")
-                        .Get<WriteRepositoryOptions>()
-                        .ConnectionString ?? throw new ArgumentNullException("connectionString")
-                )
-                .UseSnakeCaseNamingConvention()
-    );
+    var connString =
+        builder.Configuration.GetConnectionString("Default")
+        ?? throw new ArgumentNullException("connectionString");
+    builder.Services.AddNpgsqlDataSource(connString);
+
+    Action<IServiceProvider, DbContextOptionsBuilder> dbConfigure = (sp, options) =>
+        options.UseNpgsql(sp.GetRequiredService<NpgsqlDataSource>()).UseSnakeCaseNamingConvention();
+    builder.Services.AddDbContext<AppDbContext>(dbConfigure, ServiceLifetime.Singleton);
+    builder.Services.AddPooledDbContextFactory<AppDbContext>(dbConfigure);
     builder.Services.AddDistributedMemoryCache();
 
     // SimpleInjector
@@ -55,15 +56,7 @@ try
         options => options.AddAspNetCore().AddControllerActivation()
     );
 
-    container.Register(
-        () => builder.Configuration.GetSection("Repository").Get<ReadRepositoryOptions>(),
-        Lifestyle.Scoped
-    );
     container.Register<ICustomerReadRepository, CustomerReadRepository>();
-    container.Register(
-        () => builder.Configuration.GetSection("Repository").Get<WriteRepositoryOptions>(),
-        Lifestyle.Scoped
-    );
     container.Register<ICustomerWriteRepository, CustomerWriteRepository>();
     container.Register<IUnitOfWorkFactory, UnitOfWorkFactory>();
 
@@ -129,6 +122,8 @@ try
     {
         app.UseHttpsRedirection();
     }
+
+    app.MapHealthChecks("/health");
 
     app.UseAuthorization();
     app.MapControllers();

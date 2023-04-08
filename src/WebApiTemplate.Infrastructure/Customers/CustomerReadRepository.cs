@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Data.Common;
 using WebApiTemplate.Core.Customers;
 using WebApiTemplate.Infrastructure.Persistence;
 
@@ -6,5 +6,6 @@ namespace WebApiTemplate.Infrastructure.Customers;
 
 public class CustomerReadRepository : ReadRepositoryBase<Customer>, ICustomerReadRepository
 {
-    public CustomerReadRepository(ReadRepositoryOptions options) : base(options) { }
+    public CustomerReadRepository(DbDataSource db)
+        : base(db) { }
 }

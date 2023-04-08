@@ -2,6 +2,7 @@
 
 #pragma warning disable CS8618
 
+using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,31 +13,28 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Npgsql;
 using Respawn;
 using Respawn.Graph;
+using Testcontainers.PostgreSql;
 using WebApiTemplate.Infrastructure.Persistence;
 using Xunit;
-
 
 namespace WebApiTemplate.IntegrationTests;
 
 public class AppWebApplicationFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
-    private readonly PostgreSqlTestcontainer _dbContainer;
+    private readonly PostgreSqlContainer _dbContainer;
     private Respawner _respawner;
 
     public AppWebApplicationFactory()
     {
-        _dbContainer = new TestcontainersBuilder<PostgreSqlTestcontainer>()
-            .WithDatabase(
-                new PostgreSqlTestcontainerConfiguration
-                {
-                    Database = Constants.TestPostgresDatabase,
-                    Username = Constants.TestPostgresUsername,
-                    Password = Constants.TestPostgresPassword,
-                    Port = Constants.TestPostgresPort,
-                }
-            )
+        _dbContainer = new PostgreSqlBuilder()
+            .WithDatabase(Constants.TestPostgresDatabase)
+            .WithUsername(Constants.TestPostgresUsername)
+            .WithPassword(Constants.TestPostgresPassword)
+            .WithExposedPort(Constants.TestPostgresPort)
+            .WithPortBinding(Constants.TestPostgresPort)
             .Build();
     }
 
@@ -52,7 +50,8 @@ public class AppWebApplicationFactory : WebApplicationFactory<Program>, IAsyncLi
             connection,
             new RespawnerOptions
             {
-                DbAdapter = DbAdapter.Postgres, TablesToIgnore = new Table[] { "__EFMigrationsHistory" },
+                DbAdapter = DbAdapter.Postgres,
+                TablesToIgnore = new Table[] { "__EFMigrationsHistory" },
             }
         );
     }
@@ -63,8 +62,13 @@ public class AppWebApplicationFactory : WebApplicationFactory<Program>, IAsyncLi
         {
             var typesToRemove = new[]
             {
-                typeof(DbContextOptions), typeof(DbContextOptions<AppDbContext>),
-                typeof(IDbContextFactory<AppDbContext>), typeof(ReadRepositoryOptions),
+                typeof(DbContextOptions),
+                typeof(DbContextOptions<AppDbContext>),
+                typeof(IDbContextFactory<AppDbContext>),
+                typeof(NpgsqlDataSource),
+                typeof(DbConnection),
+                typeof(DbDataSource),
+                typeof(NpgsqlConnection),
             };
 
             var toRemove = services.Where(e => typesToRemove.Contains(e.ServiceType)).ToList();
@@ -73,20 +77,15 @@ public class AppWebApplicationFactory : WebApplicationFactory<Program>, IAsyncLi
                 services.Remove(descriptor);
             }
 
+            services.AddNpgsqlDataSource(_dbContainer.GetConnectionString());
             services.AddPooledDbContextFactory<AppDbContext>(
-                options =>
-                    options.UseNpgsql(_dbContainer.ConnectionString).UseSnakeCaseNamingConvention()
+                (sp, options) =>
+                    options
+                        .UseNpgsql(sp.GetRequiredService<NpgsqlDataSource>())
+                        .UseSnakeCaseNamingConvention()
             );
 
             Program.Container.Options.AllowOverridingRegistrations = true;
-            Program.Container.Register(
-                () =>
-                    new ReadRepositoryOptions { ConnectionString = _dbContainer.ConnectionString, }
-            );
-            Program.Container.Register(
-                () =>
-                    new WriteRepositoryOptions { ConnectionString = _dbContainer.ConnectionString, }
-            );
         });
     }
 

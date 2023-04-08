@@ -6,18 +6,19 @@ using WebApiTemplate.Core;
 
 namespace WebApiTemplate.Infrastructure.Persistence;
 
-public abstract class ReadRepositoryBase<T> : IReadRepository<T> where T : BaseEntity
+public abstract class ReadRepositoryBase<T> : IReadRepository<T>
+    where T : BaseEntity
 {
-    protected readonly ReadRepositoryOptions _options;
+    protected readonly DbDataSource _db;
 
-    public ReadRepositoryBase(ReadRepositoryOptions options)
+    public ReadRepositoryBase(DbDataSource db)
     {
-        _options = options;
+        _db = db;
     }
 
-    public virtual async Task<T> GetById(int id)
+    public virtual async Task<T?> GetById(int id)
     {
-        await using DbConnection conn = new NpgsqlConnection(_options.ConnectionString);
+        await using var conn = await _db.OpenConnectionAsync();
         return await conn.GetAsync<T>(id);
     }
 }
