@@ -56,7 +56,7 @@ csharp_style_namespace_declarations = file_scoped
 # Brace settings
 csharp_prefer_braces = true # Prefer curly braces even for one line of code
 
-[*.{xml,config,*proj,nuspec,props,resx,targets,yml,tasks}]
+[*.{xml,config,*proj,nuspec,props,resx,targets,yml,yaml,tasks}]
 indent_size = 2
 
 # Xml config files

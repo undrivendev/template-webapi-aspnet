@@ -1,38 +1,31 @@
+---
 repos:
-    # Talisman
-    - repo: https://github.com/thoughtworks/talisman
-      rev: "v1.29.1"
-      hooks:
-          - id: talisman-commit
-            entry: cmd --githook pre-commit
+  # Talisman
+  - repo: https://github.com/thoughtworks/talisman
+    rev: "v1.30.2"
+    hooks:
+      - id: talisman-commit
+        entry: cmd --githook pre-commit
 
-    - repo: https://github.com/pre-commit/pre-commit-hooks
-      rev: v4.3.0
-      hooks:
-          - id: check-yaml
-
-    # Formatter
-    - repo: local
-      hooks:
-          - id: csharpier
-            name: csharpier
-            language: system
-            types_or: ["c#"]
-            entry: dotnet csharpier
-
-    # Linter
-    - repo: local
-      hooks:
-          - id: dotnet-format-style
-            name: dotnet format style
-            language: system
-            types_or: ["c#"]
-            entry: dotnet format style --include
-
-    - repo: local
-      hooks:
-          - id: dotnet-format-analyzers
-            name: dotnet format analyzers
-            language: system
-            types_or: ["c#"]
-            entry: dotnet format analyzers --include
+  # Megalinter
+  - repo: https://github.com/oxsecurity/megalinter
+    rev: v6.22.2
+    hooks:
+      - id: megalinter-incremental
+        stages:
+          - commit
+        args:
+          - mega-linter-runner
+          - --flavor
+          - "dotnet"
+          - --containername
+          - "megalinter-incremental"
+          - --remove-container
+          - --fix
+          - --env
+          - "'APPLY_FIXES=all'"
+          - --env
+          - "'CLEAR_REPORT_FOLDER=true'"
+          - --env
+          - "'LOG_LEVEL=warning'"
+          - --filesonly
