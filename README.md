@@ -1,8 +1,10 @@
+# ASP.NET Core WebApi template
+
 This template can be used to bootstrap a working full-fledged ASP.NET Web Api project with a single CLI command (see below).
 
-It contains what I consider to be best practices/patterns, such as CQRS, Mediator, Clean Architectures.
+It contains what I consider to be best practices/patterns, such as CQRS, Mediator, Clean Architecture.
 
-## Like it? Give a star! :star
+## :star: Like it? Give a star
 If you like this project, you learned something from it or you are using it in your applications, please press the star button. Thanks!
 
 ## Motivation
@@ -48,7 +50,9 @@ When you have the project ready, it's time to create the initial migration using
 
 Here's an example command using the default solution name, if you changed it you would have to adapt it accordingly:
 
-`dotnet ef migrations add --project ./src/WebApiTemplate.Infrastructure/WebApiTemplate.Infrastructure.csproj --context AppDbContext --startup-project ./src/WebApiTemplate.Api/WebApiTemplate.Api.csproj InitialMigration`
+```sh
+dotnet ef migrations add --project ./src/WebApiTemplate.Infrastructure/WebApiTemplate.Infrastructure.csproj --context AppDbContext --startup-project ./src/WebApiTemplate.Api/WebApiTemplate.Api.csproj InitialMigration
+```
 
 The above migration is applied automatically during startup in the dev environment.
 
