@@ -11,7 +11,8 @@ namespace WebApiTemplate.IntegrationTests.Customers.Controllers;
 
 public class DeleteTests : BaseTestClass
 {
-    public DeleteTests(AppWebApplicationFactory factory) : base(factory) { }
+    public DeleteTests(AppWebApplicationFactory factory)
+        : base(factory) { }
 
     [Fact]
     public async Task WithCustomerPresentDeletesCorrectly()

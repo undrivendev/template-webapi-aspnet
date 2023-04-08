@@ -12,7 +12,8 @@ namespace WebApiTemplate.IntegrationTests.Customers.Controllers;
 
 public class CreateTests : BaseTestClass
 {
-    public CreateTests(AppWebApplicationFactory factory) : base(factory) { }
+    public CreateTests(AppWebApplicationFactory factory)
+        : base(factory) { }
 
     [Fact]
     public async Task WithValidRequestShouldCreateCorrectly()

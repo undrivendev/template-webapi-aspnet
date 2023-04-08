@@ -11,7 +11,8 @@ public class UpdateCustomerCommandHandler
     public UpdateCustomerCommandHandler(
         IUnitOfWorkFactory uowFactory,
         ICustomerWriteRepository repository
-    ) : base(uowFactory, repository) { }
+    )
+        : base(uowFactory, repository) { }
 
     public async Task<Nothing> Handle(
         UpdateCustomerCommand command,

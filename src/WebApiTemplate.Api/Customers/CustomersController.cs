@@ -11,7 +11,8 @@ namespace WebApiTemplate.Api.Customers;
 
 public sealed class CustomersController : AppControllerBase
 {
-    public CustomersController(IMediator mediator) : base(mediator) { }
+    public CustomersController(IMediator mediator)
+        : base(mediator) { }
 
     [HttpPost]
     [Route("")]

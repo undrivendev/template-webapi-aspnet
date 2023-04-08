@@ -11,7 +11,8 @@ namespace WebApiTemplate.IntegrationTests.Customers.Controllers;
 
 public class GetByIdTests : BaseTestClass
 {
-    public GetByIdTests(AppWebApplicationFactory factory) : base(factory) { }
+    public GetByIdTests(AppWebApplicationFactory factory)
+        : base(factory) { }
 
     [Fact]
     public async Task WithCustomerPresentInDbShouldReturnCorrectly()

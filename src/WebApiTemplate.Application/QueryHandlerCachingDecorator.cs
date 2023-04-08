@@ -5,7 +5,8 @@ using Microsoft.Extensions.Caching.Distributed;
 namespace WebApiTemplate.Application;
 
 public sealed class QueryHandlerCachingDecorator<TQuery, TQueryResult>
-    : IQueryHandler<TQuery, TQueryResult> where TQuery : IQuery<TQueryResult>
+    : IQueryHandler<TQuery, TQueryResult>
+    where TQuery : IQuery<TQueryResult>
 {
     private readonly IQueryHandler<TQuery, TQueryResult> _decorated;
     private readonly IDistributedCache _cache;

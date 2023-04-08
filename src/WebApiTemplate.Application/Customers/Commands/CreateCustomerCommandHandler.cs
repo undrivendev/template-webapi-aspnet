@@ -11,7 +11,8 @@ public class CreateCustomerCommandHandler
     public CreateCustomerCommandHandler(
         IUnitOfWorkFactory uowFactory,
         ICustomerWriteRepository repository
-    ) : base(uowFactory, repository) { }
+    )
+        : base(uowFactory, repository) { }
 
     public async Task<int> Handle(
         CreateCustomerCommand command,

@@ -3,7 +3,8 @@ using WebApiTemplate.Core;
 
 namespace WebApiTemplate.Infrastructure.Persistence;
 
-public abstract class WriteRepositoryBase<T> : IWriteRepository<T> where T : BaseEntity
+public abstract class WriteRepositoryBase<T> : IWriteRepository<T>
+    where T : BaseEntity
 {
     public virtual Task<Nothing> Create(T entity, IUnitOfWork uow)
     {

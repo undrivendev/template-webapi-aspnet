@@ -2,7 +2,7 @@ This template can be used to bootstrap a working full-fledged ASP.NET Web Api pr
 
 It contains what I consider to be best practices/patterns, such as CQRS, Mediator, Clean Architectures.
 
-## Like it? Give a star! :star:
+## Like it? Give a star! :star
 If you like this project, you learned something from it or you are using it in your applications, please press the star button. Thanks!
 
 ## Motivation

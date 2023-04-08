@@ -5,14 +5,16 @@ namespace WebApiTemplate.Application.Validation;
 
 public sealed class CommandHandlerLoggingDecorator<TCommand, TCommandResult>
     : BaseLoggingDecorator<TCommand>,
-        ICommandHandler<TCommand, TCommandResult> where TCommand : ICommand<TCommandResult>
+        ICommandHandler<TCommand, TCommandResult>
+    where TCommand : ICommand<TCommandResult>
 {
     private readonly ICommandHandler<TCommand, TCommandResult> _decorated;
 
     public CommandHandlerLoggingDecorator(
         ICommandHandler<TCommand, TCommandResult> decorated,
         ILogger<CommandHandlerLoggingDecorator<TCommand, TCommandResult>> logger
-    ) : base(logger)
+    )
+        : base(logger)
     {
         _decorated = decorated;
     }

@@ -5,14 +5,16 @@ namespace WebApiTemplate.Application.Validation;
 
 public sealed class QueryHandlerLoggingDecorator<TQuery, TQueryResult>
     : BaseLoggingDecorator<TQuery>,
-        IQueryHandler<TQuery, TQueryResult> where TQuery : IQuery<TQueryResult>
+        IQueryHandler<TQuery, TQueryResult>
+    where TQuery : IQuery<TQueryResult>
 {
     private readonly IQueryHandler<TQuery, TQueryResult> _decorated;
 
     public QueryHandlerLoggingDecorator(
         IQueryHandler<TQuery, TQueryResult> decorated,
         ILogger<QueryHandlerLoggingDecorator<TQuery, TQueryResult>> logger
-    ) : base(logger)
+    )
+        : base(logger)
     {
         _decorated = decorated;
     }
