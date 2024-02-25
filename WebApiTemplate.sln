@@ -8,11 +8,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiTemplate.Api", "src\W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiTemplate.Application", "src\WebApiTemplate.Application\WebApiTemplate.Application.csproj", "{9D241899-3FCE-4DDA-8349-A8B3FCA48F03}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{61CD5F39-6A48-4620-B894-C30B203CC11C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{61CD5F39-6A48-4620-B894-C30B203CC11C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiTemplate.UnitTests", "test\WebApiTemplate.UnitTests\WebApiTemplate.UnitTests.csproj", "{F906C471-E4EB-4B4C-B8DE-F7B8BAF37A6D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiTemplate.UnitTests", "tests\WebApiTemplate.UnitTests\WebApiTemplate.UnitTests.csproj", "{F906C471-E4EB-4B4C-B8DE-F7B8BAF37A6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiTemplate.IntegrationTests", "test\WebApiTemplate.IntegrationTests\WebApiTemplate.IntegrationTests.csproj", "{A53F16CF-3876-46DC-AFD3-2F27215F893C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiTemplate.IntegrationTests", "tests\WebApiTemplate.IntegrationTests\WebApiTemplate.IntegrationTests.csproj", "{A53F16CF-3876-46DC-AFD3-2F27215F893C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
