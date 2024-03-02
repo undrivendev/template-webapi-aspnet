@@ -4,10 +4,12 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>WebApiTemplate.Application</RootNamespace>
+        <AssemblyName>WebApiTemplate.Application</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\WebApiTemplate.Core\WebApiTemplate.Core.csproj" />
+      <ProjectReference Include="..\Core\Core.csproj" />
     </ItemGroup>
 
     <ItemGroup>

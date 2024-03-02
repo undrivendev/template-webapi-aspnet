@@ -4,6 +4,8 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>WebApiTemplate.Api</RootNamespace>
+        <AssemblyName>WebApiTemplate.Api</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>
@@ -24,9 +26,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\WebApiTemplate.Application\WebApiTemplate.Application.csproj" />
-        <ProjectReference Include="..\WebApiTemplate.Core\WebApiTemplate.Core.csproj" />
-        <ProjectReference Include="..\WebApiTemplate.Infrastructure\WebApiTemplate.Infrastructure.csproj" />
+        <ProjectReference Include="..\Application\Application.csproj" />
+        <ProjectReference Include="..\Core\Core.csproj" />
+        <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>
