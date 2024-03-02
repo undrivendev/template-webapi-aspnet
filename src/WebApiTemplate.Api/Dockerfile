@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 # copy csproj and restore as distinct layers for caching
@@ -17,9 +17,10 @@ WORKDIR /src/WebApiTemplate.Api
 RUN dotnet publish -c Release --no-self-contained -r linux-x64 -o /app "WebApiTemplate.Api.csproj"
 
 # final stage/image
-FROM mcr.microsoft.com/dotnet/aspnet:6.0
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
 ENV ASPNETCORE_URLS=http://+:5000
 EXPOSE 5000
 WORKDIR /app
 COPY --from=build /app .
+USER app
 ENTRYPOINT ["dotnet", "WebApiTemplate.Api.dll"]
