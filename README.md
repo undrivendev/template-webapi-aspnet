@@ -23,11 +23,11 @@ I found implementations of similar samples/templates to often be overly complica
 - Migrations handled by Entity Framework and automatically applied during startup (in dev environment)
 - [SimpleInjector](https://simpleinjector.org/) open-source DI container integration for advanced service registration scenarios
 - [Aspect-oriented programming](https://en.wikipedia.org/wiki/Aspect-oriented_programming) using [Decorators](https://en.wikipedia.org/wiki/Decorator_pattern) on the above-mentioned mediator
-  - Logging: [QueryHandlerLoggingDecorator](src/WebApiTemplate.Application/Logging/QueryHandlerLoggingDecorator.cs) and [CommandHandlerLoggingDecorator](src/WebApiTemplate.Application/Logging/CommandHandlerLoggingDecorator.cs)
-  - Caching: [QueryHandlerCachingDecorator](src/WebApiTemplate.Application/QueryHandlerCachingDecorator.cs)
-  - Validation: [CommandHandlerValidationDecorator](src/WebApiTemplate.Application/Validation/CommandHandlerValidationDecorator.cs) and [QueryHandlerValidationDecorator](src/WebApiTemplate.Application/Validation/QueryHandlerValidationDecorator.cs)
+  - Logging: [QueryHandlerLoggingDecorator](src/Application/Logging/QueryHandlerLoggingDecorator.cs) and [CommandHandlerLoggingDecorator](src/Application/Logging/CommandHandlerLoggingDecorator.cs)
+  - Caching: [QueryHandlerCachingDecorator](src/Application/QueryHandlerCachingDecorator.cs)
+  - Validation: [CommandHandlerValidationDecorator](src/Application/Validation/CommandHandlerValidationDecorator.cs) and [QueryHandlerValidationDecorator](src/Application/Validation/QueryHandlerValidationDecorator.cs)
 - Structured logging using the standard [MEL](https://github.com/dotnet/runtime/tree/main/src/libraries/Microsoft.Extensions.Logging.Abstractions) interface with the open-source [Serilog](https://serilog.net/) logging library implementation
-- Cache-friendly [Dockerfile](src/WebApiTemplate.Api/Dockerfile)
+- Cache-friendly [Dockerfile](src/Api/Dockerfile)
 - Expressive testing using [xUnit](https://xunit.net/) and [FluentAssertions](https://fluentassertions.com/)
 - Integration testing using real database implementation with [Testcontainers](https://dotnet.testcontainers.org/)
 
@@ -51,7 +51,7 @@ When you have the project ready, it's time to create the initial migration using
 Here's an example command using the default solution name, if you changed it you would have to adapt it accordingly:
 
 ```sh
-dotnet ef migrations add --project ./src/WebApiTemplate.Infrastructure/WebApiTemplate.Infrastructure.csproj --context AppDbContext --startup-project ./src/WebApiTemplate.Api/WebApiTemplate.Api.csproj InitialMigration
+dotnet ef migrations add --project ./src/Infrastructure/Infrastructure.csproj --context AppDbContext --startup-project ./src/Api/Api.csproj InitialMigration
 ```
 
 The above migration is applied automatically during startup in the dev environment.
