@@ -14,8 +14,8 @@ using WebApiTemplate.Core.Customers;
 using WebApiTemplate.Infrastructure.Customers;
 using WebApiTemplate.Infrastructure.Persistence;
 
-Log.Logger = new LoggerConfiguration().MinimumLevel
-    .Override("Microsoft", LogEventLevel.Information)
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
     .Enrich.FromLogContext()
     .WriteTo.Console()
     .CreateLogger();
