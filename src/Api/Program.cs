@@ -8,6 +8,7 @@ using SimpleInjector;
 using WebApiTemplate.Application;
 using WebApiTemplate.Application.Customers.Commands;
 using WebApiTemplate.Application.Customers.Queries;
+using WebApiTemplate.Application.Logging;
 using WebApiTemplate.Application.Validation;
 using WebApiTemplate.Core;
 using WebApiTemplate.Core.Customers;

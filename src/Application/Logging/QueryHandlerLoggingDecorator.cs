@@ -1,7 +1,7 @@
 using HumbleMediator;
 using Microsoft.Extensions.Logging;
 
-namespace WebApiTemplate.Application.Validation;
+namespace WebApiTemplate.Application.Logging;
 
 public sealed class QueryHandlerLoggingDecorator<TQuery, TQueryResult>
     : BaseLoggingDecorator<TQuery>,

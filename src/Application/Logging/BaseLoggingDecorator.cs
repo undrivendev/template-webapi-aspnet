@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
 
-namespace WebApiTemplate.Application.Validation;
+namespace WebApiTemplate.Application.Logging;
 
 public abstract class BaseLoggingDecorator<TRequest>
 {
