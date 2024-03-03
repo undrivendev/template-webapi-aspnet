@@ -3,12 +3,8 @@
 #pragma warning disable CS8618
 
 using System.Data.Common;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 using Respawn;
 using Respawn.Graph;

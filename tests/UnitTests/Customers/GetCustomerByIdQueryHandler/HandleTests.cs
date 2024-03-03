@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using FluentAssertions;
 using NSubstitute;
 using WebApiTemplate.Application.Customers.Queries;
