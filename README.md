@@ -11,10 +11,10 @@ If you like this project, you learned something from it or you are using it in y
 I found implementations of similar samples/templates to often be overly complicated and over-engineered (IMO). This is an effort to create a more approachable, more maintainable solution that can be used as a starting point for the majority of real-world projects while, at the same time, striving to reach a sensible balance between flexibility and complexity.
 
 ## Features
-- Based on .NET 7 to have access to the latest features
+- Based on .NET 8 to have access to the latest features
 - Simplified Startup.cs hosting model
 - [CQRS](https://docs.microsoft.com/en-us/azure/architecture/patterns/cqrs) with full separation between Read and Write repositories
-- Simple [Mediator](https://en.wikipedia.org/wiki/Mediator_pattern) abstraction for CQRS and implementation relying on the chosen Dependency Injection container (see [HumbleMediator](https://en.wikipedia.org/wiki/Mediator_pattern))
+- Simple [Mediator](https://en.wikipedia.org/wiki/Mediator_pattern) abstraction for CQRS and implementation relying on the chosen Dependency Injection container (see [HumbleMediator](https://github.com/undrivendev/HumbleMediator))
 - Project structure following [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) principles
 - Read repositories based on [Dapper](https://dapperlib.github.io/Dapper/) (Raw SQL) for fastest query execution times
 - Write repositories based on [Entity Framework Core](https://github.com/dotnet/efcore) to take advantage on the built-in change tracking mechanism
@@ -30,6 +30,7 @@ I found implementations of similar samples/templates to often be overly complica
 - Cache-friendly [Dockerfile](src/Api/Dockerfile)
 - Expressive testing using [xUnit](https://xunit.net/) and [FluentAssertions](https://fluentassertions.com/)
 - Integration testing using real database implementation with [Testcontainers](https://dotnet.testcontainers.org/)
+- [Central Package Management](https://learn.microsoft.com/en-us/nuget/consume-packages/Central-Package-Management)
 
 ## Usage
 ### 1. Bootstrap your project
