@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using NSubstitute;
 using WebApiTemplate.Application.Customers.Commands;
 using WebApiTemplate.Core;

@@ -1,9 +1,6 @@
 using System.Net;
-using System.Net.Http.Json;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using WebApiTemplate.Api.Customers.Requests;
 using WebApiTemplate.Infrastructure.Persistence;
 using Xunit;

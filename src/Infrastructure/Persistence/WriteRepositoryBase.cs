@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using WebApiTemplate.Core;
 
 namespace WebApiTemplate.Infrastructure.Persistence;
