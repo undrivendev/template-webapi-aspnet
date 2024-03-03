@@ -1,7 +1,5 @@
-using System.Threading;
 using System.Threading.Tasks;
-using FluentAssertions;
-using Moq;
+using NSubstitute;
 using WebApiTemplate.Application.Customers.Commands;
 using WebApiTemplate.Core;
 using WebApiTemplate.Core.Customers;
@@ -15,30 +13,26 @@ public class HandleTests
     public async Task WithValidRequestShouldCallRepository()
     {
         // Arrange
-        var mockWriteRepository = new Mock<ICustomerWriteRepository>();
+        var mockWriteRepository = Substitute.For<ICustomerWriteRepository>();
         mockWriteRepository
-            .Setup(e => e.Create(It.IsAny<Customer>(), It.IsAny<IUnitOfWork>()))
-            .ReturnsAsync(Nothing.Instance);
+            .Create(Arg.Any<Customer>(), Arg.Any<IUnitOfWork>())
+            .Returns(Nothing.Instance);
 
-        var mockUow = new Mock<IUnitOfWork>();
+        var mockUow = Substitute.For<IUnitOfWork>();
 
-        var mockUowFactory = new Mock<IUnitOfWorkFactory>();
-        mockUowFactory
-            .Setup(e => e.Create(It.IsAny<CancellationToken>()))
-            .ReturnsAsync(mockUow.Object);
+        var mockUowFactory = Substitute.For<IUnitOfWorkFactory>();
+        mockUowFactory.Create().ReturnsForAnyArgs(mockUow);
 
         var sut = new Application.Customers.Commands.CreateCustomerCommandHandler(
-            mockUowFactory.Object,
-            mockWriteRepository.Object
+            mockUowFactory,
+            mockWriteRepository
         );
         var newEntity = new Customer(13452);
 
         // Act
-        var act = () => sut.Handle(new CreateCustomerCommand(newEntity));
+        await sut.Handle(new CreateCustomerCommand(newEntity));
 
         // Assert
-        await act.Should().NotThrowAsync();
-        mockWriteRepository.Verify(e => e.Create(newEntity, It.IsAny<IUnitOfWork>()), Times.Once);
-        mockWriteRepository.VerifyNoOtherCalls();
+        await mockWriteRepository.Received(1).Create(Arg.Is(newEntity), Arg.Is(mockUow));
     }
 }

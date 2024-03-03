@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using FluentAssertions;
-using Moq;
+using NSubstitute;
 using WebApiTemplate.Application.Customers.Queries;
 using WebApiTemplate.Core.Customers;
 using Xunit;
@@ -14,10 +14,10 @@ public class HandleTests
     {
         // Arrange
         var expected = new Customer(1);
-        var mock = new Mock<ICustomerReadRepository>();
-        mock.Setup(e => e.GetById(It.IsAny<int>())).ReturnsAsync(expected);
+        var mock = Substitute.For<ICustomerReadRepository>();
+        mock.GetById(default).ReturnsForAnyArgs(expected);
 
-        var sut = new Application.Customers.Queries.GetCustomerByIdQueryHandler(mock.Object);
+        var sut = new Application.Customers.Queries.GetCustomerByIdQueryHandler(mock);
 
         // Act
         var result = await sut.Handle(new GetCustomerByIdQuery(1));
