@@ -6,11 +6,8 @@ using Xunit;
 
 namespace WebApiTemplate.IntegrationTests.Customers.Controllers;
 
-public class DeleteTests : BaseTestClass
+public class DeleteTests(AppWebApplicationFactory factory) : BaseTestClass(factory)
 {
-    public DeleteTests(AppWebApplicationFactory factory)
-        : base(factory) { }
-
     [Fact]
     public async Task WithCustomerPresentDeletesCorrectly()
     {
@@ -20,12 +17,12 @@ public class DeleteTests : BaseTestClass
         var contextFactory = _factory.Services.GetRequiredService<
             IDbContextFactory<AppDbContext>
         >();
-        var context = await contextFactory.CreateDbContextAsync();
+        await using var context = await contextFactory.CreateDbContextAsync();
         context.Customers.Add(new Core.Customers.Customer(id));
         await context.SaveChangesAsync();
 
-        var client = _factory.CreateClient();
-        var response = await client.DeleteAsync($"/api/customers/{id}");
+        using var client = _factory.CreateClient();
+        using var response = await client.DeleteAsync($"/api/customers/{id}");
 
         response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         var allCustomers = await context.Customers.ToListAsync();

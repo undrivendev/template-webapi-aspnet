@@ -19,7 +19,7 @@ public class AppWebApplicationFactory : WebApplicationFactory<Program>, IAsyncLi
     private readonly PostgreSqlContainer _dbContainer;
     private Respawner _respawner;
 
-    public AppWebApplicationFactory()
+    internal AppWebApplicationFactory()
     {
         _dbContainer = new PostgreSqlBuilder()
             .WithDatabase(Constants.TestPostgresDatabase)
@@ -35,8 +35,8 @@ public class AppWebApplicationFactory : WebApplicationFactory<Program>, IAsyncLi
         await _dbContainer.StartAsync();
 
         var contextFactory = this.Services.GetRequiredService<IDbContextFactory<AppDbContext>>();
-        var context = await contextFactory.CreateDbContextAsync();
-        var connection = context.Database.GetDbConnection();
+        await using var context = await contextFactory.CreateDbContextAsync();
+        await using var connection = context.Database.GetDbConnection();
         await connection.OpenAsync();
         _respawner = await Respawner.CreateAsync(
             connection,
@@ -84,8 +84,8 @@ public class AppWebApplicationFactory : WebApplicationFactory<Program>, IAsyncLi
     public async Task ResetDatabase()
     {
         var contextFactory = this.Services.GetRequiredService<IDbContextFactory<AppDbContext>>();
-        var context = await contextFactory.CreateDbContextAsync();
-        var connection = context.Database.GetDbConnection();
+        await using var context = await contextFactory.CreateDbContextAsync();
+        await using var connection = context.Database.GetDbConnection();
         await connection.OpenAsync();
         await _respawner.ResetAsync(connection);
     }

@@ -6,11 +6,8 @@ using Xunit;
 
 namespace WebApiTemplate.IntegrationTests.Customers.Controllers;
 
-public class GetByIdTests : BaseTestClass
+public class GetByIdTests(AppWebApplicationFactory factory) : BaseTestClass(factory)
 {
-    public GetByIdTests(AppWebApplicationFactory factory)
-        : base(factory) { }
-
     [Fact]
     public async Task WithCustomerPresentInDbShouldReturnCorrectly()
     {
@@ -20,12 +17,12 @@ public class GetByIdTests : BaseTestClass
         var contextFactory = _factory.Services.GetRequiredService<
             IDbContextFactory<AppDbContext>
         >();
-        var context = await contextFactory.CreateDbContextAsync();
+        await using var context = await contextFactory.CreateDbContextAsync();
         context.Customers.Add(new Core.Customers.Customer(id));
         await context.SaveChangesAsync();
 
-        var client = _factory.CreateClient();
-        var response = await client.GetAsync($"/api/customers/{id}");
+        using var client = _factory.CreateClient();
+        using var response = await client.GetAsync($"/api/customers/{id}");
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -40,8 +37,8 @@ public class GetByIdTests : BaseTestClass
         await _factory.ResetDatabase();
         const int id = 483930;
 
-        var client = _factory.CreateClient();
-        var response = await client.GetAsync($"/api/customers/{id}");
+        using var client = _factory.CreateClient();
+        using var response = await client.GetAsync($"/api/customers/{id}");
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }

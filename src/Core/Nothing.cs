@@ -6,9 +6,13 @@ namespace WebApiTemplate.Core;
 /// </summary>
 public class Nothing
 {
+    /// <summary>
+    /// Singleton instance of the Nothing class.
+    /// </summary>
     public static readonly Nothing Instance = new();
 
     private Nothing() { }
 
+    /// <inheritdoc />
     public override string ToString() => "Nothing";
 }
