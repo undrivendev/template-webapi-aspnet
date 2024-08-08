@@ -1,3 +1,4 @@
+using System.Globalization;
 using FluentValidation;
 using HumbleMediator;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +19,7 @@ using WebApiTemplate.Infrastructure.Persistence;
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
     .Enrich.FromLogContext()
-    .WriteTo.Console()
+    .WriteTo.Console(formatProvider: CultureInfo.InvariantCulture)
     .CreateLogger();
 
 try
@@ -40,7 +41,9 @@ try
     // persistence
     var connString =
         builder.Configuration.GetConnectionString("Default")
+#pragma warning disable CA2208
         ?? throw new ArgumentNullException("connectionString");
+#pragma warning restore CA2208
     builder.Services.AddNpgsqlDataSource(connString);
 
     Action<IServiceProvider, DbContextOptionsBuilder> dbConfigure = (sp, options) =>
@@ -144,7 +147,13 @@ finally
     Log.CloseAndFlush();
 }
 
+/// <summary>
+/// The Program class. This is added support accessing the <see cref="Container"/> instance.
+/// </summary>
 public partial class Program
 {
+    /// <summary>
+    /// The <see cref="Container"/> instance.
+    /// </summary>
     public static readonly Container Container = new();
 }

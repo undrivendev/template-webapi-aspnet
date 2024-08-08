@@ -3,14 +3,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebApiTemplate.Api;
 
+/// <summary>
+/// Base class for all controllers in the application.
+/// </summary>
 [ApiController]
-[Route("api/[controller]")]
-public abstract class AppControllerBase : ControllerBase
+[Route("api/v1/[controller]")]
+public abstract class AppControllerBase(IMediator mediator) : ControllerBase
 {
-    protected readonly IMediator _mediator;
-
-    public AppControllerBase(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
+    /// <summary>
+    /// The mediator instance.
+    /// </summary>
+    protected readonly IMediator _mediator = mediator;
 }

@@ -1,24 +1,25 @@
 using System.Data.Common;
 using Dapper.Contrib.Extensions;
-using Microsoft.Extensions.Options;
-using Npgsql;
 using WebApiTemplate.Core;
 
 namespace WebApiTemplate.Infrastructure.Persistence;
 
-public abstract class ReadRepositoryBase<T> : IReadRepository<T>
+/// <summary>
+/// Base class for read repositories.
+/// </summary>
+/// <param name="db">The database data source.</param>
+/// <typeparam name="T">The entity type.</typeparam>
+public abstract class ReadRepositoryBase<T>(DbDataSource db) : IReadRepository<T>
     where T : BaseEntity
 {
-    protected readonly DbDataSource _db;
-
-    public ReadRepositoryBase(DbDataSource db)
-    {
-        _db = db;
-    }
-
+    /// <summary>
+    /// Gets the entity by its id.
+    /// </summary>
+    /// <param name="id">The id of the entity to get.</param>
+    /// <returns>The entity with the specified id.</returns>
     public virtual async Task<T?> GetById(int id)
     {
-        await using var conn = await _db.OpenConnectionAsync();
+        await using var conn = await db.OpenConnectionAsync();
         return await conn.GetAsync<T>(id);
     }
 }

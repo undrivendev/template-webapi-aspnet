@@ -3,18 +3,17 @@ using WebApiTemplate.Core;
 
 namespace WebApiTemplate.Infrastructure.Persistence;
 
-public class UnitOfWorkFactory : IUnitOfWorkFactory
+/// <summary>
+/// Unit of work factory implementation based on Entity Framework.
+/// </summary>
+public class UnitOfWorkFactory(IDbContextFactory<AppDbContext> dbContextFactory)
+    : IUnitOfWorkFactory
 {
-    private readonly IDbContextFactory<AppDbContext> _dbContextFactory;
-
-    public UnitOfWorkFactory(IDbContextFactory<AppDbContext> dbContextFactory)
-    {
-        _dbContextFactory = dbContextFactory;
-    }
-
-    public async Task<IUnitOfWork> Create(CancellationToken cancellationToken = default)
-    {
-        var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
-        return new UnitOfWork(dbContext);
-    }
+    /// <summary>
+    /// Creates a new instance of the unit of work.
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns>An instance of the UnitOfWork class.</returns>
+    public async Task<IUnitOfWork> Create(CancellationToken cancellationToken = default) =>
+        new UnitOfWork(await dbContextFactory.CreateDbContextAsync(cancellationToken));
 }
