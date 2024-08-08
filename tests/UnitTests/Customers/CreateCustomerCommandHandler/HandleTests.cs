@@ -9,6 +9,11 @@ namespace WebApiTemplate.UnitTests.Customers.CreateCustomerCommandHandler;
 public class HandleTests
 {
     [Fact]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        "IDisposableAnalyzers.Correctness",
+        "IDISP004:Don't ignore created IDisposable",
+        Justification = "The IDisposable is not actually created in the test."
+    )]
     public async Task WithValidRequestShouldCallRepository()
     {
         // Arrange

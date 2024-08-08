@@ -1,4 +1,3 @@
 <Project>
-  <ItemGroup>
-  </ItemGroup>
+  <Import Project="../Directory.Packages.props" />
 </Project>

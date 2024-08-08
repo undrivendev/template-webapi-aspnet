@@ -31,6 +31,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.talismanrc = .talismanrc
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C9BBF62A-E6FE-4F01-BDBB-B80CE35B24A5}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+		src\Directory.Packages.props = src\Directory.Packages.props
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,5 +71,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{F906C471-E4EB-4B4C-B8DE-F7B8BAF37A6D} = {61CD5F39-6A48-4620-B894-C30B203CC11C}
 		{A53F16CF-3876-46DC-AFD3-2F27215F893C} = {61CD5F39-6A48-4620-B894-C30B203CC11C}
+		{C9BBF62A-E6FE-4F01-BDBB-B80CE35B24A5} = {2CDC2B0B-891C-442D-B9E3-0DF5946DDED2}
 	EndGlobalSection
 EndGlobal
