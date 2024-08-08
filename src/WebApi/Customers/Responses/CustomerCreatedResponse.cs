@@ -1,4 +1,4 @@
-namespace WebApiTemplate.Api.Customers.Responses;
+namespace WebApiTemplate.WebApi.Customers.Responses;
 
 /// <summary>
 /// Response entity returned to the client after the creation of a Customer entity.

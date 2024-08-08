@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
-        <RootNamespace>WebApiTemplate.Api</RootNamespace>
-        <AssemblyName>WebApiTemplate.Api</AssemblyName>
+        <RootNamespace>WebApiTemplate.WebApi</RootNamespace>
+        <AssemblyName>WebApiTemplate.WebApi</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>

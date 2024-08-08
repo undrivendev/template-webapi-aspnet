@@ -1,8 +1,8 @@
 using System.Net;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using WebApiTemplate.Api.Customers.Requests;
 using WebApiTemplate.Infrastructure.Persistence;
+using WebApiTemplate.WebApi.Customers.Requests;
 using Xunit;
 
 namespace WebApiTemplate.IntegrationTests.Customers.Controllers;

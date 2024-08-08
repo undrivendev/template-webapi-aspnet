@@ -1,13 +1,13 @@
 using HumbleMediator;
 using Microsoft.AspNetCore.Mvc;
-using WebApiTemplate.Api.Customers.Requests;
-using WebApiTemplate.Api.Customers.Responses;
 using WebApiTemplate.Application.Customers.Commands;
 using WebApiTemplate.Application.Customers.Queries;
 using WebApiTemplate.Core;
 using WebApiTemplate.Core.Customers;
+using WebApiTemplate.WebApi.Customers.Requests;
+using WebApiTemplate.WebApi.Customers.Responses;
 
-namespace WebApiTemplate.Api.Customers;
+namespace WebApiTemplate.WebApi.Customers;
 
 /// <summary>
 /// The controller for the Customer entity.
