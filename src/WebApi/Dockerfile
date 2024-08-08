@@ -23,4 +23,4 @@ EXPOSE 5000
 WORKDIR /app
 COPY --from=build /app .
 USER app
-ENTRYPOINT ["dotnet", "WebApiTemplate.Api.dll"]
+ENTRYPOINT ["dotnet", "WebApiTemplate.WebApi.dll"]

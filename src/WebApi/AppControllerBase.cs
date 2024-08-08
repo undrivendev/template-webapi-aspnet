@@ -1,7 +1,7 @@
 using HumbleMediator;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApiTemplate.Api;
+namespace WebApiTemplate.WebApi;
 
 /// <summary>
 /// Base class for all controllers in the application.
