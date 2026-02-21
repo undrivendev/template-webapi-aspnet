@@ -11,7 +11,7 @@ If you like this project, you learned something from it or you are using it in y
 I found implementations of similar samples/templates to often be overly complicated and over-engineered (IMO). This is an effort to create a more approachable, more maintainable solution that can be used as a starting point for the majority of real-world projects while, at the same time, striving to reach a sensible balance between flexibility and complexity.
 
 ## Features
-- Based on .NET 8 to have access to the latest features
+- Based on .NET 10 to have access to the latest features
 - Simplified Startup.cs hosting model
 - [CQRS](https://docs.microsoft.com/en-us/azure/architecture/patterns/cqrs) with full separation between Read and Write repositories
 - Simple [Mediator](https://en.wikipedia.org/wiki/Mediator_pattern) abstraction for CQRS and implementation relying on the chosen Dependency Injection container (see [HumbleMediator](https://github.com/undrivendev/HumbleMediator))
