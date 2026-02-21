@@ -1,4 +1,4 @@
-using FluentAssertions;
+using AwesomeAssertions;
 using NSubstitute;
 using WebApiTemplate.Application.Customers.Queries;
 using WebApiTemplate.Core.Customers;

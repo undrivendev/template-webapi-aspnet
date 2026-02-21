@@ -21,7 +21,7 @@ public class AppWebApplicationFactory : WebApplicationFactory<Program>, IAsyncLi
 
     internal AppWebApplicationFactory()
     {
-        _dbContainer = new PostgreSqlBuilder()
+        _dbContainer = new PostgreSqlBuilder("postgres:18")
             .WithDatabase(Constants.TestPostgresDatabase)
             .WithUsername(Constants.TestPostgresUsername)
             .WithPassword(Constants.TestPostgresPassword)

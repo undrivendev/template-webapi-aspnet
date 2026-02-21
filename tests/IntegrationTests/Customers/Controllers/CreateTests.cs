@@ -1,5 +1,5 @@
 using System.Net;
-using FluentAssertions;
+using AwesomeAssertions;
 using Microsoft.EntityFrameworkCore;
 using WebApiTemplate.Infrastructure.Persistence;
 using WebApiTemplate.WebApi.Customers.Requests;
