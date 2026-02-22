@@ -19,7 +19,7 @@ public class AppWebApplicationFactory : WebApplicationFactory<Program>, IAsyncLi
     private readonly PostgreSqlContainer _dbContainer;
     private Respawner _respawner;
 
-    internal AppWebApplicationFactory()
+    public AppWebApplicationFactory()
     {
         _dbContainer = new PostgreSqlBuilder("postgres:18")
             .WithDatabase(Constants.TestPostgresDatabase)
