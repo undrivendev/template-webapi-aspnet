@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "undrivendev",
+  "classifications": [
+    "Web",
+    "WebAPI",
+    "ASP.NET",
+    "Clean Architecture",
+    "CQRS"
+  ],
+  "identity": "WebApiTemplate.CleanArchitecture",
+  "name": "ASP.NET Core WebAPI with Clean Architecture",
+  "shortName": "webapi-undrivendev",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "WebApiTemplate",
+  "preferNameDirectory": true,
+  "symbols": {
+    "skipRestore": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "false",
+      "description": "If specified, skips the automatic restore of the project on create."
+    }
+  },
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "exclude": [
+            "**/bin/**",
+            "**/obj/**",
+            "**/.vs/**",
+            "**/.idea/**",
+            "**/.vscode/**",
+            "**/.git/**",
+            "**/*.user",
+            "**/*.suo",
+            "**/node_modules/**",
+            ".template.config/**"
+          ]
+        }
+      ]
+    }
+  ],
+  "postActions": [
+    {
+      "condition": "(!skipRestore)",
+      "description": "Restore NuGet packages required by this project.",
+      "manualInstructions": [
+        {
+          "text": "Run 'dotnet restore'"
+        }
+      ],
+      "actionId": "210D431B-A78B-4D2F-B762-4ED3E3EA9025",
+      "continueOnError": true
+    }
+  ]
+}

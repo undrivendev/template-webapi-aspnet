@@ -35,6 +35,17 @@ I found implementations of similar samples/templates to often be overly complica
 ## Usage
 ### 1. Bootstrap your project
 Here are a couple of ways to bootstrap a new project starting from this template.
+
+#### dotnet new template (Recommended)
+The easiest way to create a new project from this template:
+
+```bash
+dotnet new install .
+dotnet new webapi-undrivendev -n YourProjectName -o ./YourProjectName
+```
+
+👉 **See the complete guide: [TEMPLATE-SETUP.md](TEMPLATE-SETUP.md)**
+
 #### Cookiecutter template
 Probably the best way to bootstrap this project, with just one command, but some dependencies are needed.
 1. Make sure Python is installed
