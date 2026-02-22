@@ -22,8 +22,8 @@ repos:
         always_run: true
         pass_filenames: false
         stages:
-          - commit
-          - push
+          - pre-commit
+          - pre-push
           - post-checkout
           - post-rewrite
         description: Install the .NET tools listed at .config/dotnet-tools.json.
